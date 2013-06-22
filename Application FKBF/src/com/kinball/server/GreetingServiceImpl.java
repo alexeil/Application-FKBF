@@ -1,8 +1,8 @@
 package com.kinball.server;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.kinball.client.GreetingService;
 import com.kinball.shared.FieldVerifier;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * The server side implementation of the RPC service.
