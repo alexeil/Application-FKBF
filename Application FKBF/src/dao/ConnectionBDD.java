@@ -1,13 +1,19 @@
 package dao;
 
+import generators.CalendarGenerator;
+
 import java.sql.Connection;
 
 import java.sql.DriverManager;
+
+import org.apache.log4j.Logger;
 
 /**
  * Classe permettant de gérer la connexion au sein de la BDD
  */
 public class ConnectionBDD {
+
+	private final static Logger LOGGER = Logger.getLogger(ConnectionBDD.class.getName());
 
 	public static String user = "root";// utilisateur de la bdd
 	public static String url = "jdbc:mysql://127.0.0.1:";// url de la bdd
@@ -18,26 +24,24 @@ public class ConnectionBDD {
 
 	/**
 	 * Retourne l'instance de la connexion avec la BDD
+	 * 
 	 * @return connection
 	 */
 	public static Connection getInstance() {
-		if (connection != null)
+		if (connection != null) {
 			return connection;
+		}
+		
 		try {
 			Class.forName(driver).newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			LOGGER.error("Erreur lors de la création d'une nouvelle instance de connection",e);
 		}
 
 		try {
-			connection = DriverManager
-					.getConnection(url + port + bdd, user, "");
+			connection = DriverManager.getConnection(url + port + bdd, user, "");
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error("Erreur lors de la connection",e);
 		}
 		return connection;
 	}

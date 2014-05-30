@@ -27,6 +27,8 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
+
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilCalendarModel;
@@ -36,16 +38,18 @@ import calendar.EventKB;
 import calendar.ModeleModifiableCalendar;
 import calendar.SexeCellRenderer;
 import calendar.TimeChooserCellEditor;
-import calendar.TimeChooserCellRenderer;
+import calendar.TimeChooserCellRenderer; 
 
 import com.google.gdata.util.ServiceException;
 
 public class CalendarGenerator extends JFrame {
 
+	private final static Logger LOGGER = Logger.getLogger(CalendarGenerator.class.getName()); 
+	
 	public String[] namesOfDays = { "dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi" };
 	public String[] namesOfMonths = { "janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre",
 			"décembre" };
-	
+
 	public static Map<String, String> nieme = new HashMap<String, String>();
 	static {
 		nieme.put("1er", "premier");
@@ -71,10 +75,9 @@ public class CalendarGenerator extends JFrame {
 		nieme.put("21ème", "vingt-et-unième");
 		nieme.put("22ème", "vingt-deuxième");
 		nieme.put("23ème", "vingt-troisième");
-		
-		
-    }
-	
+
+	}
+
 	public static String RN = "\r\n";
 
 	private static ModeleModifiableCalendar modele = new ModeleModifiableCalendar();
@@ -102,7 +105,8 @@ public class CalendarGenerator extends JFrame {
 
 	private static String INIT_TEXT_AREA = "La <nieme> journée du championnat de France de Kin-Ball se déroulera le <jour> <numJour> <mois> <annee> à <ville>. \n\r  \n\r Les matchs auront lieu à <adresse>. Le premier match commencera à <heure>. Les horaires indiqués sont les horaires de début de match au plus tôt. \n\r  \n\r";
 
-	// private SimpleDate Format dateformat = new SimpleDateFormat("dd/MM/yyyy");
+	// private SimpleDate Format dateformat = new
+	// SimpleDateFormat("dd/MM/yyyy");
 	public CalendarGenerator() {
 
 		// initialise le canlendrier
@@ -267,16 +271,15 @@ public class CalendarGenerator extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				dialog.setVisible(true);
-				
+
 				String description = INIT_TEXT_AREA.replace("<ville>", ville.getText());
 				description = description.replace("<jour>", getDay());
 				description = description.replace("<numJour>", getNumDay());
 				description = description.replace("<mois>", getMonth());
-				description = description.replace("<annee>",  getYear() );
+				description = description.replace("<annee>", getYear());
 				description = description.replace("<heure>", timeformat.format(new Date(modele.getEventsKB().get(0).getDebut())).replace(":", "h"));
-				description = description.replace("<nieme>",  nieme.get(titre.getText().split(" ")[0]) );
-				
-				
+				description = description.replace("<nieme>", nieme.get(titre.getText().split(" ")[0]));
+
 				descriptionAnnonce.setText(description);
 			}
 		});
@@ -376,7 +379,7 @@ public class CalendarGenerator extends JFrame {
 			}
 
 		} catch (ServiceException | IOException | ParseException e) {
-			e.printStackTrace();
+			LOGGER.error("Exeption lors du chargement du tableau" , e);
 		}
 	}
 
@@ -442,35 +445,33 @@ public class CalendarGenerator extends JFrame {
 		modele.removeEventDayKB();
 	}
 
-	
-	public String getDay(){
+	public String getDay() {
 		GregorianCalendar calendar = (GregorianCalendar) dateJournee.getModel().getValue();
 		return namesOfDays[calendar.get(Calendar.DAY_OF_WEEK) - 1];
 	}
-	
-	public String getNumDay(){
+
+	public String getNumDay() {
 		GregorianCalendar calendar = (GregorianCalendar) dateJournee.getModel().getValue();
 		return String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
 	}
-	
-	public String getMonth(){
+
+	public String getMonth() {
 		GregorianCalendar calendar = (GregorianCalendar) dateJournee.getModel().getValue();
 		return namesOfMonths[calendar.get(Calendar.MONTH)];
 	}
-	
-	public String getYear(){
+
+	public String getYear() {
 		GregorianCalendar calendar = (GregorianCalendar) dateJournee.getModel().getValue();
 		return String.valueOf(calendar.get(Calendar.YEAR));
 	}
-	
+
 	public void generateHTML() {
 
 		GregorianCalendar calendar = (GregorianCalendar) dateJournee.getModel().getValue();
 
 		StringBuilder html = new StringBuilder();
 
-		html.append("<p class=\"date\">" + getDay() + " " + getNumDay() + " "
-				+ getMonth() + " " + getYear() + " à " + ville.getText() + "</p>");
+		html.append("<p class=\"date\">" + getDay() + " " + getNumDay() + " " + getMonth() + " " + getYear() + " à " + ville.getText() + "</p>");
 		html.append(RN);
 
 		html.append("<div class=\"championnat_masculin\">Championnat Masculin</div> " + RN);
@@ -556,7 +557,7 @@ public class CalendarGenerator extends JFrame {
 		}
 		html.append("	</table> " + RN);
 		html.append("</p> " + RN);
-		 writeToFile("Annonce-"+eventDayKB.getTitre(), html);
+		writeToFile("Annonce-" + eventDayKB.getTitre(), html);
 
 		System.out.println(html.toString());
 	}

@@ -9,11 +9,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import metier.DivisionListeElement;
 import classement.Team;
 
 public class ClassementDAO {
 
+	private final static Logger LOGGER = Logger.getLogger(ClassementDAO.class.getName());
+	
 	private Connection connection;
 	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -161,8 +165,8 @@ public class ClassementDAO {
 			stm = null;
 			
 		} catch (SQLException e) {
-			System.err.println("Error: queryColumns(): " + requete);
-			e.printStackTrace();
+			LOGGER.debug("Error: queryColumns(): " + requete);
+			LOGGER.error("Error",e);
 		}
 
 		return DivisionListeElements;

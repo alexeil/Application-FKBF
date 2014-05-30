@@ -42,8 +42,12 @@ import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilCalendarModel;
 import javax.swing.JComboBox;
 
+import org.apache.log4j.Logger;
+
 public class RankingGenerator extends JFrame {
 
+	private final static Logger LOGGER = Logger.getLogger(RankingGenerator.class.getName()); 
+	
 	private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
 	private static int FIRST = 10;
@@ -241,7 +245,14 @@ public class RankingGenerator extends JFrame {
 		FileChooser fileChooser = new FileChooser();
 		boutons.add(fileChooser, gbc_2);
 
-		loadDivisionListe();
+		try {
+			FactoryDAO.getClassementDAO();
+			loadDivisionListe();
+			
+		} catch (Exception e) {
+			LOGGER.error("Pas de connection");
+		}
+		
 		
 		pack();
 	}
