@@ -1,4 +1,5 @@
 package classement;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,121 +19,140 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-public class ReadAndPrintXMLFile {
+public class ReadAndPrintXMLFile
+{
 
-	public static void getXMLFromClassement(Classement classement, String filename) {
-		try {
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+    public static void getXMLFromClassement(Classement classement, String filename)
+    {
+        try
+        {
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 
-			// root elements
-			Document doc = docBuilder.newDocument();
-			Element rootElement = doc.createElement("poule");
-			doc.appendChild(rootElement);
-			rootElement.setAttribute("poule", classement.getPoule());
-			
-			for (Team team : classement.getTeams()) {
-				Element elemTeam = doc.createElement("equipe");
-				elemTeam.setAttribute("rank", team.getRank());
-				elemTeam.setAttribute("logo",  team.getLogo());
-				elemTeam.setAttribute("team", team.getTeam());
-				elemTeam.setAttribute("points", team.getPoints());
-				elemTeam.setAttribute("mj", team.getMj());
-				elemTeam.setAttribute("first", team.getFirst());
-				elemTeam.setAttribute("second", team.getSecond());
-				elemTeam.setAttribute("third", team.getThird());
-				elemTeam.setAttribute("forfeit", team.getForfeit());
-				elemTeam.setAttribute("nbPeriodes", team.getNbPeriodes());
-				elemTeam.setAttribute("fairPlay", team.getFairPlay());
-				rootElement.appendChild(elemTeam);
-			}
-			
-			// write the content into xml file
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(filename));
-	 
-			// Output to console for testing
-//			 StreamResult result = new StreamResult(System.out);
-	 
-			transformer.transform(source, result);
+            // root elements
+            Document doc = docBuilder.newDocument();
+            Element rootElement = doc.createElement("poule");
+            doc.appendChild(rootElement);
+            rootElement.setAttribute("poule", classement.getPoule());
 
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-	}
+            for(Team team : classement.getTeams())
+            {
+                Element elemTeam = doc.createElement("equipe");
+                elemTeam.setAttribute("rank", team.getRank());
+                elemTeam.setAttribute("logo", team.getLogo());
+                elemTeam.setAttribute("team", team.getTeam());
+                elemTeam.setAttribute("points", team.getPoints());
+                elemTeam.setAttribute("mj", team.getMj());
+                elemTeam.setAttribute("first", team.getFirst());
+                elemTeam.setAttribute("second", team.getSecond());
+                elemTeam.setAttribute("third", team.getThird());
+                elemTeam.setAttribute("forfeit", team.getForfeit());
+                elemTeam.setAttribute("nbPeriodes", team.getNbPeriodes());
+                elemTeam.setAttribute("fairPlay", team.getFairPlay());
+                rootElement.appendChild(elemTeam);
+            }
 
-	public static Classement getClassementFromXML(String url) {
+            // write the content into xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(filename));
 
-		Classement classement = new Classement();
-		List<Team> teams = new ArrayList<Team>();
-		try {
+            // Output to console for testing
+            // StreamResult result = new StreamResult(System.out);
 
-			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			// Document doc = docBuilder.parse(new File("book.xml"));
-			Document doc = docBuilder.parse(new File(url));
+            transformer.transform(source, result);
 
-			// normalize text representation
-			doc.getDocumentElement().normalize();
+        }
+        catch(Throwable t)
+        {
+            t.printStackTrace();
+        }
+    }
 
-			String poule = doc.getDocumentElement().getAttribute("poule");
+    public static Classement getClassementFromXML(String url)
+    {
 
-			// System.out.println("Poule : " + poule);
-			classement.setPoule(poule);
+        Classement classement = new Classement();
+        List<Team> teams = new ArrayList<Team>();
+        try
+        {
 
-			NodeList listeEquipes = doc.getElementsByTagName("equipe");
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            // Document doc = docBuilder.parse(new File("book.xml"));
+            Document doc = docBuilder.parse(new File(url));
 
-			int totalEquipe = listeEquipes.getLength();
+            // normalize text representation
+            doc.getDocumentElement().normalize();
 
-			for (int s = 0; s < totalEquipe; s++) {
+            String poule = doc.getDocumentElement().getAttribute("poule");
 
-				Node team = listeEquipes.item(s);
-				if (team.getNodeType() == Node.ELEMENT_NODE) {
+            // System.out.println("Poule : " + poule);
+            classement.setPoule(poule);
 
-					NamedNodeMap namedNodeMap = team.getAttributes();
+            NodeList listeEquipes = doc.getElementsByTagName("equipe");
 
-					String rank = namedNodeMap.getNamedItem("rank").getNodeValue();
-					String logo = namedNodeMap.getNamedItem("logo").getNodeValue();
-					String sTeam = namedNodeMap.getNamedItem("team").getNodeValue();
-					String points = namedNodeMap.getNamedItem("points").getNodeValue();
-					String mj = namedNodeMap.getNamedItem("mj").getNodeValue();
-					String first = namedNodeMap.getNamedItem("first").getNodeValue();
-					String second = namedNodeMap.getNamedItem("second").getNodeValue();
-					String third = namedNodeMap.getNamedItem("third").getNodeValue();
-					String forfeit = namedNodeMap.getNamedItem("forfeit").getNodeValue();
-					String nbPeriodes = namedNodeMap.getNamedItem("nbPeriodes").getNodeValue();
-					String fairPlay = namedNodeMap.getNamedItem("fairPlay").getNodeValue();
+            int totalEquipe = listeEquipes.getLength();
 
-					Team oTeam = new Team(rank, logo, sTeam, points, mj, first, second, third, forfeit, nbPeriodes, fairPlay);
-					teams.add(oTeam);
+            for(int s = 0; s < totalEquipe; s++)
+            {
 
-					// System.out.println(team.toString());
-					// System.out.println("--------------------------------------------------------");
-				}
-			}
-		} catch (SAXParseException err) {
-			System.out.println("** Parsing error" + ", line " + err.getLineNumber() + ", uri " + err.getSystemId());
-			System.out.println(" " + err.getMessage());
+                Node team = listeEquipes.item(s);
+                if(team.getNodeType() == Node.ELEMENT_NODE)
+                {
 
-		} catch (SAXException e) {
-			Exception x = e.getException();
-			((x == null) ? e : x).printStackTrace();
+                    NamedNodeMap namedNodeMap = team.getAttributes();
 
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
-		classement.setTeams(teams);
-		return classement;
-	}
+                    String rank = namedNodeMap.getNamedItem("rank").getNodeValue();
+                    String logo = namedNodeMap.getNamedItem("logo").getNodeValue();
+                    String sTeam = namedNodeMap.getNamedItem("team").getNodeValue();
+                    String points = namedNodeMap.getNamedItem("points").getNodeValue();
+                    String mj = namedNodeMap.getNamedItem("mj").getNodeValue();
+                    String first = namedNodeMap.getNamedItem("first").getNodeValue();
+                    String second = namedNodeMap.getNamedItem("second").getNodeValue();
+                    String third = namedNodeMap.getNamedItem("third").getNodeValue();
+                    String forfeit = namedNodeMap.getNamedItem("forfeit").getNodeValue();
+                    String nbPeriodes = namedNodeMap.getNamedItem("nbPeriodes").getNodeValue();
+                    String fairPlay = namedNodeMap.getNamedItem("fairPlay").getNodeValue();
 
-	public static void main(String argv[]) {
-		Classement classement = getClassementFromXML("C:/Users/thierry/Desktop/classement_D1.xml");
-		System.out.println(classement.getPoule());
-		List<Team> teams = classement.getTeams();
-		for (Team team : teams) {
-			System.out.println(team.toString());
-		}
-	}// end of main
+                    Team oTeam =
+                        new Team(rank, logo, sTeam, points, mj, first, second, third, forfeit, nbPeriodes, fairPlay);
+                    teams.add(oTeam);
+
+                    // System.out.println(team.toString());
+                    // System.out.println("--------------------------------------------------------");
+                }
+            }
+        }
+        catch(SAXParseException err)
+        {
+            System.out.println("** Parsing error" + ", line " + err.getLineNumber() + ", uri " + err.getSystemId());
+            System.out.println(" " + err.getMessage());
+
+        }
+        catch(SAXException e)
+        {
+            Exception x = e.getException();
+            ((x == null) ? e : x).printStackTrace();
+
+        }
+        catch(Throwable t)
+        {
+            t.printStackTrace();
+        }
+        classement.setTeams(teams);
+        return classement;
+    }
+
+    public static void main(String argv[])
+    {
+        Classement classement = getClassementFromXML("C:/Users/thierry/Desktop/classement_D1.xml");
+        System.out.println(classement.getPoule());
+        List<Team> teams = classement.getTeams();
+        for(Team team : teams)
+        {
+            System.out.println(team.toString());
+        }
+    }// end of main
 }

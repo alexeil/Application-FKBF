@@ -1,149 +1,172 @@
 package classement;
-import java.awt.*;
 
-public class Team {
+public class Team
+{
 
-	public static String RN = "\r\n";
+    public static String RN = "\r\n";
 
-	private String rank;
-	private String logo;
-	private String team;
-	private String points;
-	private String mj;
-	private String first;
-	private String second;
-	private String third;
-	private String forfeit;
-	private String nbPeriodes;
-	private String fairPlay;
+    private String rank;
+    private String logo;
+    private String team;
+    private String points;
+    private String mj;
+    private String first;
+    private String second;
+    private String third;
+    private String forfeit;
+    private String nbPeriodes;
+    private String fairPlay;
 
-	
-	public Team(String rank, String logo, String team, String points, String mj, String first, String second, String third, String forfeit,
-			String nbPeriodes, String fairPlay) {
-		super();
+    public Team(String rank, String logo, String team, String points, String mj, String first, String second,
+                String third, String forfeit, String nbPeriodes, String fairPlay)
+    {
+        super();
 
-		this.rank = rank;
-		this.logo = logo;
-		this.team = team;
-		this.points = points;
-		this.mj = mj;
-		this.first = first;
-		this.second = second;
-		this.third = third;
-		this.forfeit = forfeit;
-		this.nbPeriodes = nbPeriodes;
-		this.fairPlay = fairPlay;
-	}
+        this.rank = rank;
+        this.logo = logo;
+        this.team = team;
+        this.points = points;
+        this.mj = mj;
+        this.first = first;
+        this.second = second;
+        this.third = third;
+        this.forfeit = forfeit;
+        this.nbPeriodes = nbPeriodes;
+        this.fairPlay = fairPlay;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
 
-		sb.append("-----------------------------------"  + RN);
-		sb.append("rank =" + rank + RN);
-		sb.append("logo =" + logo + RN);
-		sb.append("team = " + team + RN);
-		sb.append("points = " + points + RN);
-		sb.append("mj = " + mj + RN);
-		sb.append("first = " + first + RN);
-		sb.append("second = " + second + RN);
-		sb.append("third = " + third + RN);
-		sb.append("forfeit = " + forfeit + RN);
-		sb.append("nbPeriodes = " + nbPeriodes + RN);
-		sb.append("fairPlay = " + fairPlay + RN);
-		sb.append("-----------------------------------"  + RN);
-		
-//		System.out.println(sb.toString());
-		
-		return sb.toString();
-	}
+        sb.append("-----------------------------------" + RN);
+        sb.append("rank =" + rank + RN);
+        sb.append("logo =" + logo + RN);
+        sb.append("team = " + team + RN);
+        sb.append("points = " + points + RN);
+        sb.append("mj = " + mj + RN);
+        sb.append("first = " + first + RN);
+        sb.append("second = " + second + RN);
+        sb.append("third = " + third + RN);
+        sb.append("forfeit = " + forfeit + RN);
+        sb.append("nbPeriodes = " + nbPeriodes + RN);
+        sb.append("fairPlay = " + fairPlay + RN);
+        sb.append("-----------------------------------" + RN);
 
-	public String getRank() {
-		return rank;
-	}
+        // System.out.println(sb.toString());
 
-	public void setRank(String rank) {
-		this.rank = rank;
-	}
+        return sb.toString();
+    }
 
-	public String getLogo() {
-		return logo;
-	}
+    public String getRank()
+    {
+        return rank;
+    }
 
-	public void setLogo(String logo) {
-		this.logo = logo;
-	}
+    public void setRank(String rank)
+    {
+        this.rank = rank;
+    }
 
-	public String getTeam() {
-		return team;
-	}
+    public String getLogo()
+    {
+        return logo;
+    }
 
-	public void setTeam(String team) {
-		this.team = team;
-	}
+    public void setLogo(String logo)
+    {
+        this.logo = logo;
+    }
 
-	public String getPoints() {
-		return points;
-	}
+    public String getTeam()
+    {
+        return team;
+    }
 
-	public void setPoints(String points) {
-		this.points = points;
-	}
+    public void setTeam(String team)
+    {
+        this.team = team;
+    }
 
-	public String getMj() {
-		return mj;
-	}
+    public String getPoints()
+    {
+        return points;
+    }
 
-	public void setMj(String mj) {
-		this.mj = mj;
-	}
+    public void setPoints(String points)
+    {
+        this.points = points;
+    }
 
-	public String getFirst() {
-		return first;
-	}
+    public String getMj()
+    {
+        return mj;
+    }
 
-	public void setFirst(String first) {
-		this.first = first;
-	}
+    public void setMj(String mj)
+    {
+        this.mj = mj;
+    }
 
-	public String getSecond() {
-		return second;
-	}
+    public String getFirst()
+    {
+        return first;
+    }
 
-	public void setSecond(String second) {
-		this.second = second;
-	}
+    public void setFirst(String first)
+    {
+        this.first = first;
+    }
 
-	public String getThird() {
-		return third;
-	}
+    public String getSecond()
+    {
+        return second;
+    }
 
-	public void setThird(String third) {
-		this.third = third;
-	}
+    public void setSecond(String second)
+    {
+        this.second = second;
+    }
 
-	public String getForfeit() {
-		return forfeit;
-	}
+    public String getThird()
+    {
+        return third;
+    }
 
-	public void setForfeit(String forfeit) {
-		this.forfeit = forfeit;
-	}
+    public void setThird(String third)
+    {
+        this.third = third;
+    }
 
-	public String getNbPeriodes() {
-		return nbPeriodes;
-	}
+    public String getForfeit()
+    {
+        return forfeit;
+    }
 
-	public void setNbPeriodes(String nbPeriodes) {
-		this.nbPeriodes = nbPeriodes;
-	}
+    public void setForfeit(String forfeit)
+    {
+        this.forfeit = forfeit;
+    }
 
-	public String getFairPlay() {
-		return fairPlay;
-	}
+    public String getNbPeriodes()
+    {
+        return nbPeriodes;
+    }
 
-	public void setFairPlay(String fairPlay) {
-		this.fairPlay = fairPlay;
-	}
+    public void setNbPeriodes(String nbPeriodes)
+    {
+        this.nbPeriodes = nbPeriodes;
+    }
+
+    public String getFairPlay()
+    {
+        return fairPlay;
+    }
+
+    public void setFairPlay(String fairPlay)
+    {
+        this.fairPlay = fairPlay;
+    }
 
 }

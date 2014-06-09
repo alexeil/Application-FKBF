@@ -9,166 +9,190 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import metier.DivisionListeElement;
+
 import org.apache.log4j.Logger;
 
-import metier.DivisionListeElement;
 import classement.Team;
 
-public class ClassementDAO {
+public class ClassementDAO
+{
 
-	private final static Logger LOGGER = Logger.getLogger(ClassementDAO.class.getName());
-	
-	private Connection connection;
-	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private final static Logger LOGGER = Logger.getLogger(ClassementDAO.class.getName());
 
-	/**
-	 * Constructeur
-	 */
-	public ClassementDAO() {
-		this.connection = ConnectionBDD.getInstance();
-	}
+    private Connection connection;
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-	public void deleteClassement(classement.Classement classement) {
-		Statement stm;
-		try {
-			stm = connection.createStatement();
+    /**
+     * Constructeur
+     */
+    public ClassementDAO()
+    {
+        this.connection = ConnectionBDD.getInstance();
+    }
 
-			StringBuilder requete = new StringBuilder();
+    public void deleteClassement(classement.Classement classement)
+    {
+        Statement stm;
+        try
+        {
+            stm = connection.createStatement();
 
-			requete.append("DELETE FROM classement WHERE  ");
-			requete.append(" division = '" + classement.getPoule() + "' AND ");
-			requete.append(" sexe ='" + classement.getSexe() + "' AND");
-			requete.append(" date ='" + DATE_FORMAT.format(new Date(classement.getDate())) + "'");
+            StringBuilder requete = new StringBuilder();
 
-			stm.executeUpdate(requete.toString());
+            requete.append("DELETE FROM classement WHERE  ");
+            requete.append(" division = '" + classement.getPoule() + "' AND ");
+            requete.append(" sexe ='" + classement.getSexe() + "' AND");
+            requete.append(" date ='" + DATE_FORMAT.format(new Date(classement.getDate())) + "'");
 
-			stm.close();
-			stm = null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+            stm.executeUpdate(requete.toString());
 
-	public void insertClassement(classement.Classement classement) {
+            stm.close();
+            stm = null;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
 
-		Statement stm;
-		try {
-			stm = connection.createStatement();
+    public void insertClassement(classement.Classement classement)
+    {
 
-			StringBuilder requete = new StringBuilder();
-			StringBuilder subRequete = new StringBuilder();
+        Statement stm;
+        try
+        {
+            stm = connection.createStatement();
 
-			requete.append("INSERT INTO classement  (  division , sexe , date ,  rang ,  logo ,  nom_equipe ,  points ,  match_joue , premiere_place ,  deuxieme_place ,  troisieme_place ,  forfait , nb_periode ,  esprit_sportif )");
-			requete.append(" VALUES (");
-			requete.append("'" + classement.getPoule() + "',");
-			requete.append("'" + classement.getSexe() + "',");
-			requete.append("'" + DATE_FORMAT.format(new Date(classement.getDate())) + "',");
+            StringBuilder requete = new StringBuilder();
+            StringBuilder subRequete = new StringBuilder();
 
-			for (Team team : classement.getTeams()) {
-				subRequete = new StringBuilder();
+            requete
+                .append("INSERT INTO classement  (  division , sexe , date ,  rang ,  logo ,  nom_equipe ,  points ,  match_joue , premiere_place ,  deuxieme_place ,  troisieme_place ,  forfait , nb_periode ,  esprit_sportif )");
+            requete.append(" VALUES (");
+            requete.append("'" + classement.getPoule() + "',");
+            requete.append("'" + classement.getSexe() + "',");
+            requete.append("'" + DATE_FORMAT.format(new Date(classement.getDate())) + "',");
 
-				subRequete.append(requete);
-				subRequete.append("'" + team.getRank() + "',");
-				subRequete.append("'" + team.getLogo() + "',");
-				subRequete.append("'" + team.getTeam() + "',");
-				subRequete.append("'" + team.getPoints().replace("-", "0") + "',");
-				subRequete.append("'" + team.getMj().replace("-", "0") + "',");
-				subRequete.append("'" + team.getFirst().replace("-", "0") + "',");
-				subRequete.append("'" + team.getSecond().replace("-", "0") + "',");
-				subRequete.append("'" + team.getThird().replace("-", "0") + "',");
-				subRequete.append("'" + team.getForfeit().replace("-", "0") + "',");
-				subRequete.append("'" + team.getNbPeriodes().replace("-", "0") + "',");
-				subRequete.append("'" + team.getFairPlay().replace("-", "0") + "')");
+            for(Team team : classement.getTeams())
+            {
+                subRequete = new StringBuilder();
 
-				System.out.println(subRequete.toString());
-				stm.executeUpdate(subRequete.toString());
-			}
-			stm.close();
-			stm = null;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+                subRequete.append(requete);
+                subRequete.append("'" + team.getRank() + "',");
+                subRequete.append("'" + team.getLogo() + "',");
+                subRequete.append("'" + team.getTeam() + "',");
+                subRequete.append("'" + team.getPoints().replace("-", "0") + "',");
+                subRequete.append("'" + team.getMj().replace("-", "0") + "',");
+                subRequete.append("'" + team.getFirst().replace("-", "0") + "',");
+                subRequete.append("'" + team.getSecond().replace("-", "0") + "',");
+                subRequete.append("'" + team.getThird().replace("-", "0") + "',");
+                subRequete.append("'" + team.getForfeit().replace("-", "0") + "',");
+                subRequete.append("'" + team.getNbPeriodes().replace("-", "0") + "',");
+                subRequete.append("'" + team.getFairPlay().replace("-", "0") + "')");
 
-	}
+                System.out.println(subRequete.toString());
+                stm.executeUpdate(subRequete.toString());
+            }
+            stm.close();
+            stm = null;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
 
-	public classement.Classement selectAllClassement(long date, String sexe, String division) {
+    }
 
-		classement.Classement classement = new classement.Classement();
-		List<Team> teams = new ArrayList<Team>();
+    public classement.Classement selectAllClassement(long date, String sexe, String division)
+    {
 
-		StringBuilder requete = new StringBuilder();
-		requete.append("SELECT * FROM CLASSEMENT");
-		requete.append(" WHERE ");
-		requete.append(" date ='" + DATE_FORMAT.format(new Date(date)) + "'  AND");
-		requete.append(" sexe ='" + sexe + "' AND ");
-		requete.append(" division ='" + division + "'");
+        classement.Classement classement = new classement.Classement();
+        List<Team> teams = new ArrayList<Team>();
 
-		try {
-			Statement stm = connection.createStatement();
-			ResultSet resultat = stm.executeQuery(requete.toString());
+        StringBuilder requete = new StringBuilder();
+        requete.append("SELECT * FROM CLASSEMENT");
+        requete.append(" WHERE ");
+        requete.append(" date ='" + DATE_FORMAT.format(new Date(date)) + "'  AND");
+        requete.append(" sexe ='" + sexe + "' AND ");
+        requete.append(" division ='" + division + "'");
 
-			while (resultat.next()) {
+        try
+        {
+            Statement stm = connection.createStatement();
+            ResultSet resultat = stm.executeQuery(requete.toString());
 
-				classement.setDate(resultat.getDate("date").getTime());
-				classement.setHomme(resultat.getString("sexe").equals('M') ? true : false);
-				classement.setPoule(resultat.getString("division"));
+            while(resultat.next())
+            {
 
-				String rank = resultat.getString("rang");
-				String logo = resultat.getString("logo");
-				String sTeam = resultat.getString("nom_equipe");
-				String points = resultat.getString("points");
-				String mj = resultat.getString("match_joue");
-				String first = resultat.getString("premiere_place");
-				String second = resultat.getString("deuxieme_place");
-				String third = resultat.getString("troisieme_place");
-				String forfeit = resultat.getString("forfait");
-				String nbPeriodes = resultat.getString("nb_periode");
-				String fairPlay = resultat.getString("esprit_sportif");
+                classement.setDate(resultat.getDate("date").getTime());
+                classement.setHomme(resultat.getString("sexe").equals('M') ? true : false);
+                classement.setPoule(resultat.getString("division"));
 
-				
-				Team oTeam = new Team(rank, logo, sTeam, points, mj, first, second, third, forfeit, nbPeriodes, fairPlay);
-				teams.add(oTeam);
-			}
+                String rank = resultat.getString("rang");
+                String logo = resultat.getString("logo");
+                String sTeam = resultat.getString("nom_equipe");
+                String points = resultat.getString("points");
+                String mj = resultat.getString("match_joue");
+                String first = resultat.getString("premiere_place");
+                String second = resultat.getString("deuxieme_place");
+                String third = resultat.getString("troisieme_place");
+                String forfeit = resultat.getString("forfait");
+                String nbPeriodes = resultat.getString("nb_periode");
+                String fairPlay = resultat.getString("esprit_sportif");
 
-			classement.setTeams(teams);
+                Team oTeam =
+                    new Team(rank, logo, sTeam, points, mj, first, second, third, forfeit, nbPeriodes, fairPlay);
+                teams.add(oTeam);
+            }
 
-			resultat.close();
-			resultat = null;
-			stm.close();
-			stm = null;
-		} catch (SQLException e) {
-			System.err.println("Error: queryColumns(): " + requete);
-			e.printStackTrace();
-		}
+            classement.setTeams(teams);
 
-		return classement;
-	}
-	
-	public List<DivisionListeElement> getAllDivision(){
+            resultat.close();
+            resultat = null;
+            stm.close();
+            stm = null;
+        }
+        catch(SQLException e)
+        {
+            System.err.println("Error: queryColumns(): " + requete);
+            e.printStackTrace();
+        }
 
-		List<DivisionListeElement> DivisionListeElements = new ArrayList<DivisionListeElement>();
-		
-		String requete = "SELECT DISTINCT division, sexe FROM classement";
+        return classement;
+    }
 
-		try {
-			Statement stm = connection.createStatement();
-			ResultSet resultat = stm.executeQuery(requete);
-			DivisionListeElement divisionListeElement;
-			while (resultat.next()) {
-				 divisionListeElement = new DivisionListeElement(resultat.getString("division"), resultat.getString("sexe"));
-				 DivisionListeElements.add(divisionListeElement);
-			}
+    public List<DivisionListeElement> getAllDivision()
+    {
 
-			resultat.close();
-			resultat = null;
-			stm.close();
-			stm = null;
-			
-		} catch (SQLException e) {
-			LOGGER.debug("Error: queryColumns(): " + requete);
-			LOGGER.error("Error",e);
-		}
+        List<DivisionListeElement> DivisionListeElements = new ArrayList<DivisionListeElement>();
 
-		return DivisionListeElements;
-	}
+        String requete = "SELECT DISTINCT division, sexe FROM classement";
+
+        try
+        {
+            Statement stm = connection.createStatement();
+            ResultSet resultat = stm.executeQuery(requete);
+            DivisionListeElement divisionListeElement;
+            while(resultat.next())
+            {
+                divisionListeElement =
+                    new DivisionListeElement(resultat.getString("division"), resultat.getString("sexe"));
+                DivisionListeElements.add(divisionListeElement);
+            }
+
+            resultat.close();
+            resultat = null;
+            stm.close();
+            stm = null;
+
+        }
+        catch(SQLException e)
+        {
+            LOGGER.debug("Error: queryColumns(): " + requete);
+            LOGGER.error("Error", e);
+        }
+
+        return DivisionListeElements;
+    }
 }

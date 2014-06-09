@@ -1,35 +1,40 @@
 package calendar;
 
+import java.awt.Component;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 
-public class SexeCellRenderer extends DefaultTableCellRenderer {
+public class SexeCellRenderer
+    extends DefaultTableCellRenderer
+{
     private Icon manImage;
     private Icon womanImage;
 
-    public SexeCellRenderer() {
+    public SexeCellRenderer()
+    {
         super();
         manImage = new ImageIcon("images/M.jpg");
         womanImage = new ImageIcon("images/F.jpg");
     }
 
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+                                                   int row, int column)
+    {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-        Boolean homme = (Boolean)value;
+        Boolean homme = (Boolean) value;
 
         setText("");
-        if(homme){
+        if(homme)
+        {
             setIcon(manImage);
-        } else {
+        }
+        else
+        {
             setIcon(womanImage);
         }
 

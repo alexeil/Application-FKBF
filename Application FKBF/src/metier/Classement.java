@@ -2,61 +2,73 @@ package metier;
 
 import java.sql.Date;
 
-public class Classement {
+public class Classement
+{
 
-	private int idClassement;
-	private Date date;
-	private String division;
-	private String html;
-	
-	public Classement(int idClassement, Date date, String division, String html) {
-		super();
-		this.idClassement = idClassement;
-		this.date = date;
-		this.division = division;
-		this.html = html;
-	}
-	
-	public Classement() {
-		
-	}
+    private int idClassement;
+    private Date date;
+    private String division;
+    private String html;
 
-	@Override
-	public String toString() {
-		return "Classement [idClassement=" + idClassement + ", date=" + date + ", division=" + division + ", html=" + html + "]";
-	}
+    public Classement(int idClassement, Date date, String division, String html)
+    {
+        super();
+        this.idClassement = idClassement;
+        this.date = date;
+        this.division = division;
+        this.html = html;
+    }
 
-	public int getIdClassement() {
-		return idClassement;
-	}
+    public Classement()
+    {
 
-	public void setIdClassement(int idClassement) {
-		this.idClassement = idClassement;
-	}
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    @Override
+    public String toString()
+    {
+        return "Classement [idClassement=" + idClassement + ", date=" + date + ", division=" + division + ", html="
+            + html + "]";
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public int getIdClassement()
+    {
+        return idClassement;
+    }
 
-	public String getDivision() {
-		return division;
-	}
+    public void setIdClassement(int idClassement)
+    {
+        this.idClassement = idClassement;
+    }
 
-	public void setDivision(String division) {
-		this.division = division;
-	}
+    public Date getDate()
+    {
+        return date;
+    }
 
-	public String getHtml() {
-		return html;
-	}
+    public void setDate(Date date)
+    {
+        this.date = date;
+    }
 
-	public void setHtml(String html) {
-		this.html = html;
-	}
-	
-	
+    public String getDivision()
+    {
+        return division;
+    }
+
+    public void setDivision(String division)
+    {
+        this.division = division;
+    }
+
+    public String getHtml()
+    {
+        return html;
+    }
+
+    public void setHtml(String html)
+    {
+        this.html = html;
+    }
+
 }
