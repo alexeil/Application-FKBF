@@ -1,9 +1,10 @@
 package src.main.java.dao;
 
 import org.apache.log4j.Logger;
-
 import src.main.java.metier.Equipe;
+
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
@@ -12,9 +13,8 @@ public class EquipeDAO
 {
 
     private final static Logger LOGGER = Logger.getLogger(EquipeDAO.class.getName());
-
-    private Connection connection;
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private Connection connection;
 
     /**
      * Constructeur
@@ -167,7 +167,8 @@ public class EquipeDAO
             stm = connection.createStatement();
 
             requete
-                .append("INSERT INTO equipe  ( color,nom_equipe,isForfait,p1,p2,p3,p4,p5,p6,p7,prol1,prol2,prol3,prol4,prol5,prol6,prol7,prol_deuxieme,nb_periode,esprit_sportif,points )");
+                .append(
+                    "INSERT INTO equipe  ( color,nom_equipe,isForfait,p1,p2,p3,p4,p5,p6,p7,prol1,prol2,prol3,prol4,prol5,prol6,prol7,prol_deuxieme,nb_periode,esprit_sportif,points )");
             requete.append(" VALUES (");
             requete.append("'" + equipe.getColor() + "',");
             requete.append("'" + equipe.getNomEquipe() + "',");
@@ -192,7 +193,16 @@ public class EquipeDAO
             requete.append("'" + equipe.getEsprit_sportif() + "',");
             requete.append("'" + equipe.getPoints() + "')");
 
-            int idLastInserted = stm.executeUpdate(requete.toString(), Statement.RETURN_GENERATED_KEYS);
+            stm.executeUpdate(requete.toString(), Statement.RETURN_GENERATED_KEYS);
+
+            ResultSet rs = stm.getGeneratedKeys();
+
+            int idLastInserted = 0;
+            if(rs.next())
+            {
+                idLastInserted = rs.getInt(1);
+            }
+
             stm.close();
             stm = null;
 
@@ -207,5 +217,57 @@ public class EquipeDAO
             LOGGER.error("SQLException ", e);
         }
         return 0;
+    }
+
+    public Equipe getEquipeFromId(int idEquipe)
+    {
+
+        Equipe equipe = new Equipe();
+
+        String requete =
+            " SELECT `id_equipe`, `color`, `nom_equipe`, `isForfait`, `p1`, `p2`, `p3`, `p4`, `p5`, `p6`, `p7`, `prol1`, `prol2`, `prol3`, `prol4`, `prol5`, `prol6`, `prol7`, `prol_deuxieme`, `nb_periode`, `esprit_sportif`, `points` FROM `equipe` WHERE id_equipe ="
+                + idEquipe;
+
+        try
+        {
+            Statement stm = connection.createStatement();
+            ResultSet resultat = stm.executeQuery(requete);
+
+            while(resultat.next())
+            {
+                equipe.setId_equipe(resultat.getInt("id_equipe"));
+                equipe.setColor(resultat.getString("color"));
+                equipe.setNomEquipe(resultat.getString("nom_equipe"));
+                equipe.setForfait(resultat.getBoolean("isForfait"));
+                equipe.setP1(resultat.getInt("p1"));
+                equipe.setP2(resultat.getInt("p2"));
+                equipe.setP3(resultat.getInt("p3"));
+                equipe.setP4(resultat.getInt("p4"));
+                equipe.setP5(resultat.getInt("p5"));
+                equipe.setP6(resultat.getInt("p6"));
+                equipe.setP7(resultat.getInt("p7"));
+                equipe.setProl1(resultat.getInt("prol1"));
+                equipe.setProl2(resultat.getInt("prol2"));
+                equipe.setProl3(resultat.getInt("prol3"));
+                equipe.setProl4(resultat.getInt("prol4"));
+                equipe.setProl5(resultat.getInt("prol5"));
+                equipe.setProl6(resultat.getInt("prol6"));
+                equipe.setProl7(resultat.getInt("prol7"));
+                equipe.setProl_deuxieme(resultat.getInt("prol_deuxieme"));
+                equipe.setNb_periode(resultat.getInt("nb_periode"));
+                equipe.setEsprit_sportif(resultat.getInt("esprit_sportif"));
+                equipe.setPoints(resultat.getInt("points"));
+            }
+
+            resultat.close();
+            resultat = null;
+            stm.close();
+            stm = null;
+        }
+        catch(SQLException e)
+        {
+            LOGGER.error(requete, e);
+        }
+        return equipe;
     }
 }

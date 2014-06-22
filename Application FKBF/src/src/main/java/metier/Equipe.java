@@ -25,6 +25,11 @@ public class Equipe
     private int esprit_sportif;
     private int points;
 
+    public Equipe()
+    {
+
+    }
+
     public Equipe(int id_equipe, String color, String nomEquipe, boolean isForfait, int p1, int p2, int p3, int p4,
                   int p5, int p6, int p7, int prol1, int prol2, int prol3, int prol4, int prol5, int prol6, int prol7,
                   int prol_deuxieme, int nb_periode, int esprit_sportif, int points)

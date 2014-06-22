@@ -8,10 +8,11 @@ public class FactoryDAO
 
     private static ClassementDAO classementDAO = null;//
     private static ClassementHtmlDAO classementHtmlDAO = null;
+    private static MatchDAO matchDAO = null;
 
     /**
      * Retourne l'objet ClassementDAO.
-     * 
+     *
      * @return classementDAO
      */
     public static ClassementDAO getClassementDAO()
@@ -25,7 +26,7 @@ public class FactoryDAO
 
     /**
      * Retourne l'objet ClassementHtmlDAO.
-     * 
+     *
      * @return classementHtmlDAO
      */
     public static ClassementHtmlDAO getClassementHtmlDAO()
@@ -37,4 +38,12 @@ public class FactoryDAO
         return classementHtmlDAO;
     }
 
+    public static MatchDAO getMatchDAO()
+    {
+        if(matchDAO == null)
+        {
+            matchDAO = new MatchDAO();
+        }
+        return matchDAO;
+    }
 }

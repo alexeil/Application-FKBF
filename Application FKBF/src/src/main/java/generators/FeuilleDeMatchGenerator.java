@@ -1,21 +1,23 @@
 package src.main.java.generators;
 
+import org.apache.log4j.Logger;
+import src.main.java.dao.FactoryDAO;
+import src.main.java.dao.MatchDAO;
+import src.main.java.metier.Equipe;
+import src.main.java.metier.Match;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import src.main.java.dao.MatchDAO;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import src.main.java.metier.Equipe;
-import src.main.java.metier.Match;
 
 public class FeuilleDeMatchGenerator
     extends JFrame
 {
-
-    private static final long serialVersionUID = 1L;
+    private final static Logger LOGGER = Logger.getLogger(FeuilleDeMatchGenerator.class.getName());
 
     public static String RN = "\r\n";
 
@@ -23,7 +25,7 @@ public class FeuilleDeMatchGenerator
     public static String MOINS_SRC = "http://www.kin-ball.fr/images/moins.jpg";
 
     private JTextField equipeGris;
-    private JTextField EquipeNoir;
+    private JTextField equipeNoir;
     private JTextField equipeBleu;
     private JTextField match;
     private JTextField txtPriode;
@@ -127,6 +129,7 @@ public class FeuilleDeMatchGenerator
     private JCheckBox forfaitNoir;
     private JButton btnSaveDb;
     private JButton btnLoadDb;
+    private JComboBox listID;
 
     public FeuilleDeMatchGenerator()
     {
@@ -216,7 +219,6 @@ public class FeuilleDeMatchGenerator
         textField_2.setColumns(10);
 
         equipeBleu = new JTextField();
-        // FIXME COLOR
         equipeBleu.setBackground(Color.WHITE);
         // equipeBleu.setText("Equipe Bleu ");
         equipeBleu.setText("");
@@ -240,7 +242,6 @@ public class FeuilleDeMatchGenerator
         textField_3.setColumns(10);
 
         equipeGris = new JTextField();
-        // FIXME COLOR
         equipeGris.setBackground(Color.WHITE);
         // equipeGris.setText("Equipe Gris");
         equipeGris.setText("");
@@ -263,19 +264,17 @@ public class FeuilleDeMatchGenerator
         getContentPane().add(textField_4, gbc_textField_4);
         textField_4.setColumns(10);
 
-        EquipeNoir = new JTextField();
-        // FIXME COLOR
-        EquipeNoir.setBackground(Color.WHITE);
-        // EquipeNoir.setText("Equipe Noir");
-        EquipeNoir.setText("");
+        equipeNoir = new JTextField();
+        equipeNoir.setBackground(Color.WHITE);
+        equipeNoir.setText("");
         GridBagConstraints gbc_EquipeNoir = new GridBagConstraints();
         gbc_EquipeNoir.gridwidth = 6;
         gbc_EquipeNoir.insets = new Insets(0, 0, 5, 0);
         gbc_EquipeNoir.fill = GridBagConstraints.HORIZONTAL;
         gbc_EquipeNoir.gridx = 16;
         gbc_EquipeNoir.gridy = 2;
-        getContentPane().add(EquipeNoir, gbc_EquipeNoir);
-        EquipeNoir.setColumns(10);
+        getContentPane().add(equipeNoir, gbc_EquipeNoir);
+        equipeNoir.setColumns(10);
 
         txtPriode = new JTextField();
         txtPriode.setText("P\u00E9riode");
@@ -1097,6 +1096,14 @@ public class FeuilleDeMatchGenerator
         arbitreAdjoint.setColumns(10);
 
         btnLoadDb = new JButton("Load DB");
+        btnLoadDb.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent arg0)
+            {
+                loadDB();
+            }
+        });
+
         GridBagConstraints gbc_btnLoadDb = new GridBagConstraints();
         gbc_btnLoadDb.anchor = GridBagConstraints.EAST;
         gbc_btnLoadDb.gridwidth = 5;
@@ -1113,6 +1120,15 @@ public class FeuilleDeMatchGenerator
                 saveDB();
             }
         });
+
+        listID = new JComboBox();
+        GridBagConstraints gbc_listID = new GridBagConstraints();
+        gbc_listID.gridwidth = 2;
+        gbc_listID.insets = new Insets(0, 0, 5, 5);
+        gbc_listID.fill = GridBagConstraints.HORIZONTAL;
+        gbc_listID.gridx = 13;
+        gbc_listID.gridy = 11;
+        getContentPane().add(listID, gbc_listID);
         GridBagConstraints gbc_btnSaveDb = new GridBagConstraints();
         gbc_btnSaveDb.anchor = GridBagConstraints.WEST;
         gbc_btnSaveDb.gridwidth = 6;
@@ -1140,26 +1156,22 @@ public class FeuilleDeMatchGenerator
 
         btnNewButton.addActionListener(new ActionListener()
         {
-
             @Override
             public void actionPerformed(ActionEvent arg0)
             {
                 if(idMatch.getText().equals(""))
                 {
-
                     System.out.println("id match is missing");
                 }
                 else
                 {
                     generateHTML();
                 }
-
             }
         });
 
         clearAll.addActionListener(new ActionListener()
         {
-
             @Override
             public void actionPerformed(ActionEvent arg0)
             {
@@ -1167,8 +1179,31 @@ public class FeuilleDeMatchGenerator
             }
         });
 
+        try
+        {
+            FactoryDAO.getClassementDAO();
+            loadIDListe();
+        }
+        catch(Exception e)
+        {
+            LOGGER.error("Pas de connection");
+        }
+
         // listeTxtFields =
         // {P1B,P2B,P3B,P4B,P5B,P6B,P7B,P1N,P2N,P3N,P4N,P5N,P6N,P7N,P1G,P2G,P3G,P4G,P5G,P6G,P7G};
+    }
+
+    public static void main(String[] args)
+    {
+        new FeuilleDeMatchGenerator();
+    }
+
+    private void loadIDListe()
+    {
+        for(String id : FactoryDAO.getMatchDAO().getAllID())
+        {
+            listID.addItem(id);
+        }
     }
 
     public void generateHTML()
@@ -1187,7 +1222,7 @@ public class FeuilleDeMatchGenerator
 
         html.append("<td colspan=\"7\" class=\"bleu\">" + equipeBleu.getText() + "</td>" + RN);
         html.append("<td colspan=\"7\" class=\"gris\">" + equipeGris.getText() + "</td>" + RN);
-        html.append("<td colspan=\"7\" class=\"noir\">" + EquipeNoir.getText() + "</td>" + RN);
+        html.append("<td colspan=\"7\" class=\"noir\">" + equipeNoir.getText() + "</td>" + RN);
         html.append("</tr>" + RN);
         html.append("<tr>" + RN);
         html.append("<td class=\"premiere_colonne\">P�riodes gagn�es</td>" + RN);
@@ -1234,7 +1269,7 @@ public class FeuilleDeMatchGenerator
         html.append("<td class=\"premiere_colonne\">" + match.getText() + " #" + idMatch.getText() + "</td>" + RN);
         html.append("<td colspan=\"7\" class=\"bleu\">" + equipeBleu.getText() + "</td>" + RN);
         html.append("<td colspan=\"7\" class=\"gris\">" + equipeGris.getText() + "</td>" + RN);
-        html.append("<td colspan=\"7\" class=\"noir\">" + EquipeNoir.getText() + "</td>" + RN);
+        html.append("<td colspan=\"7\" class=\"noir\">" + equipeNoir.getText() + "</td>" + RN);
         html.append("</tr> " + RN);
         html.append("<tr> " + RN);
         html.append("<td class=\"premiere_colonne\">P�riode</td>" + RN);
@@ -1553,16 +1588,11 @@ public class FeuilleDeMatchGenerator
 
         equipeBleu.setText("");
         equipeGris.setText("");
-        EquipeNoir.setText("");
+        equipeNoir.setText("");
 
         forfaitBleu.setSelected(false);
         forfaitGris.setSelected(false);
         forfaitNoir.setSelected(false);
-    }
-
-    public static void main(String[] args)
-    {
-        new FeuilleDeMatchGenerator();
     }
 
     private void saveDB()
@@ -1576,7 +1606,7 @@ public class FeuilleDeMatchGenerator
                 pointBleu.getText());
 
         Equipe noir =
-            new Equipe("noir", EquipeNoir.getText(), forfaitNoir.isSelected(), P1N.getText(), P2N.getText(),
+            new Equipe("noir", equipeNoir.getText(), forfaitNoir.isSelected(), P1N.getText(), P2N.getText(),
                 P3N.getText(), P4N.getText(), P5N.getText(), P6N.getText(), P7N.getText(), prol1N.getText(),
                 prol2N.getText(), prol3N.getText(), prol4N.getText(), prol5N.getText(), prol6N.getText(),
                 prol7N.getText(), prol22N.getText(), periodeGagneeNoir.getText(), espritSportifNoir.getText(),
@@ -1592,6 +1622,83 @@ public class FeuilleDeMatchGenerator
         Match match = new Match(idMatch.getText(), bleu, gris, noir, arbitreChef.getText(), arbitreAdjoint.getText());
 
         new MatchDAO().save(match, this.createHtml(match));
+    }
+
+    private void loadDB()
+    {
+        Match match = FactoryDAO.getMatchDAO().getMatchFromID(listID.getSelectedItem().toString());
+
+        idMatch.setText(match.getIdMatch());
+
+        Equipe bleu = match.getBleu();
+        equipeBleu.setText(bleu.getNomEquipe());
+        forfaitBleu.setSelected(bleu.isForfait());
+        P1B.setText(String.valueOf(bleu.getP1()));
+        P2B.setText(String.valueOf(bleu.getP2()));
+        P3B.setText(String.valueOf(bleu.getP3()));
+        P4B.setText(String.valueOf(bleu.getP4()));
+        P5B.setText(String.valueOf(bleu.getP5()));
+        P6B.setText(String.valueOf(bleu.getP6()));
+        P7B.setText(String.valueOf(bleu.getP7()));
+        prol1B.setText(String.valueOf(bleu.getProl1()));
+        prol2B.setText(String.valueOf(bleu.getProl2()));
+        prol3B.setText(String.valueOf(bleu.getProl3()));
+        prol4B.setText(String.valueOf(bleu.getProl4()));
+        prol5B.setText(String.valueOf(bleu.getProl5()));
+        prol6B.setText(String.valueOf(bleu.getProl6()));
+        prol7B.setText(String.valueOf(bleu.getProl7()));
+        prol22B.setText(String.valueOf(bleu.getProl_deuxieme()));
+        periodeGagneeBleu.setText(String.valueOf(bleu.getNb_periode()));
+        espritSportifBleu.setText(String.valueOf(bleu.getEsprit_sportif()));
+        pointBleu.setText(String.valueOf(bleu.getPoints()));
+
+        Equipe noir = match.getNoir();
+        equipeNoir.setText(noir.getNomEquipe());
+        forfaitNoir.setSelected(bleu.isForfait());
+        P1N.setText(String.valueOf(bleu.getP1()));
+        P2N.setText(String.valueOf(bleu.getP2()));
+        P3N.setText(String.valueOf(bleu.getP3()));
+        P4N.setText(String.valueOf(bleu.getP4()));
+        P5N.setText(String.valueOf(bleu.getP5()));
+        P6N.setText(String.valueOf(bleu.getP6()));
+        P7N.setText(String.valueOf(bleu.getP7()));
+        prol1N.setText(String.valueOf(bleu.getProl1()));
+        prol2N.setText(String.valueOf(bleu.getProl2()));
+        prol3N.setText(String.valueOf(bleu.getProl3()));
+        prol4N.setText(String.valueOf(bleu.getProl4()));
+        prol5N.setText(String.valueOf(bleu.getProl5()));
+        prol6N.setText(String.valueOf(bleu.getProl6()));
+        prol7N.setText(String.valueOf(bleu.getProl7()));
+        prol22N.setText(String.valueOf(bleu.getProl_deuxieme()));
+        periodeGagneeNoir.setText(String.valueOf(bleu.getNb_periode()));
+        espritSportifNoir.setText(String.valueOf(bleu.getEsprit_sportif()));
+        pointNoir.setText(String.valueOf(bleu.getPoints()));
+
+        Equipe gris = match.getGris();
+        equipeGris.setText(gris.getNomEquipe());
+        forfaitGris.setSelected(bleu.isForfait());
+        P1G.setText(String.valueOf(bleu.getP1()));
+        P2G.setText(String.valueOf(bleu.getP2()));
+        P3G.setText(String.valueOf(bleu.getP3()));
+        P4G.setText(String.valueOf(bleu.getP4()));
+        P5G.setText(String.valueOf(bleu.getP5()));
+        P6G.setText(String.valueOf(bleu.getP6()));
+        P7G.setText(String.valueOf(bleu.getP7()));
+        prol1G.setText(String.valueOf(bleu.getProl1()));
+        prol2G.setText(String.valueOf(bleu.getProl2()));
+        prol3G.setText(String.valueOf(bleu.getProl3()));
+        prol4G.setText(String.valueOf(bleu.getProl4()));
+        prol5G.setText(String.valueOf(bleu.getProl5()));
+        prol6G.setText(String.valueOf(bleu.getProl6()));
+        prol7G.setText(String.valueOf(bleu.getProl7()));
+        prol22G.setText(String.valueOf(bleu.getProl_deuxieme()));
+        periodeGagneeGris.setText(String.valueOf(bleu.getNb_periode()));
+        espritSportifGris.setText(String.valueOf(bleu.getEsprit_sportif()));
+        pointGris.setText(String.valueOf(bleu.getPoints()));
+
+        arbitreChef.setText(match.getArbitreChef());
+        arbitreAdjoint.setText(match.getArbitreAdjoint());
+
     }
 
     // FIXME Peut etre ds bug comparer avec le generateHTML
@@ -1661,7 +1768,7 @@ public class FeuilleDeMatchGenerator
         html.append("<td class=\"premiere_colonne\"> Match #" + idMatch.getText() + "</td>" + RN);
         html.append("<td colspan=\"7\" class=\"bleu\">" + equipeBleu.getText() + "</td>" + RN);
         html.append("<td colspan=\"7\" class=\"gris\">" + equipeGris.getText() + "</td>" + RN);
-        html.append("<td colspan=\"7\" class=\"noir\">" + EquipeNoir.getText() + "</td>" + RN);
+        html.append("<td colspan=\"7\" class=\"noir\">" + equipeNoir.getText() + "</td>" + RN);
         html.append("</tr> " + RN);
         html.append("<tr> " + RN);
         html.append("<td class=\"premiere_colonne\">P�riode</td>" + RN);

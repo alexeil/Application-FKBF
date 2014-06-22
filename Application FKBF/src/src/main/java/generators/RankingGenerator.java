@@ -4,6 +4,9 @@ import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilCalendarModel;
 import org.apache.log4j.Logger;
+import src.main.java.classement.*;
+import src.main.java.dao.FactoryDAO;
+import src.main.java.metier.DivisionListeElement;
 
 import javax.swing.*;
 import javax.swing.table.TableModel;
@@ -11,12 +14,9 @@ import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import src.main.java.classement.*;
-import src.main.java.dao.FactoryDAO;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import src.main.java.metier.DivisionListeElement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,19 +28,16 @@ public class RankingGenerator
 {
 
     private final static Logger LOGGER = Logger.getLogger(RankingGenerator.class.getName());
-
+    public static String RN = "\r\n";
     private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-
     private static int FIRST = 10;
     private static int SECOND = 6;
     private static int THIRD = 2;
     private static int FORFEIT = 0;
-
     private static ModeleModifiable modele = new ModeleModifiable();
-    private JTable tableau;
     private static JTextField division;
-    public static String RN = "\r\n";
     private static JTextArea textAreaErrors;
+    private JTable tableau;
     private JCheckBox isHomme;
     private JComboBox<DivisionListeElement> divisionListe;
 
@@ -241,7 +238,6 @@ public class RankingGenerator
         {
             FactoryDAO.getClassementDAO();
             loadDivisionListe();
-
         }
         catch(Exception e)
         {
@@ -251,58 +247,9 @@ public class RankingGenerator
         pack();
     }
 
-    private void loadDivisionListe()
-    {
-        for(DivisionListeElement divisionListeElement : FactoryDAO.getClassementDAO().getAllDivision())
-        {
-            divisionListe.addItem(divisionListeElement);
-        }
-    }
-
     public static void main(String[] args)
     {
         new RankingGenerator().setVisible(true);
-    }
-
-    private class AddAction
-        extends AbstractAction
-    {
-        private AddAction()
-        {
-            super("Ajouter");
-        }
-
-        public void actionPerformed(ActionEvent e)
-        {
-            modele.addTeam(new Team("", "", "", "", "", "", "", "", "", "", ""));
-        }
-    }
-
-    private class RemoveAction
-        extends AbstractAction
-    {
-        private RemoveAction()
-        {
-            super("Supprimmer");
-        }
-
-        public void actionPerformed(ActionEvent e)
-        {
-            int[] selection = tableau.getSelectedRows();
-            int[] modelIndexes = new int[selection.length];
-
-            for(int i = 0; i < selection.length; i++)
-            {
-                modelIndexes[i] = tableau.getRowSorter().convertRowIndexToModel(selection[i]);
-            }
-
-            Arrays.sort(modelIndexes);
-
-            for(int i = modelIndexes.length - 1; i >= 0; i--)
-            {
-                modele.removeTeam(modelIndexes[i]);
-            }
-        }
     }
 
     public static void reloadTable(String url)
@@ -320,25 +267,6 @@ public class RankingGenerator
         }
 
         division.setText(classement.getPoule());
-        textAreaErrors.setText("");
-    }
-
-    public void reloadTableDB()
-    {
-        clearTable();
-
-        Classement classement =
-            FactoryDAO.getClassementDAO().selectAllClassement(getDateLong(), isHomme.isSelected() ? "M" : "F",
-                ((DivisionListeElement) divisionListe.getSelectedItem()).getDivision());
-
-        ArrayList<Team> teams = new ArrayList<Team>();
-        teams = (ArrayList<Team>) classement.getTeams();
-
-        for(Team team : teams)
-        {
-            modele.addTeam(team);
-        }
-
         textAreaErrors.setText("");
     }
 
@@ -360,6 +288,33 @@ public class RankingGenerator
         ReadAndPrintXMLFile.getXMLFromClassement(classement, url);
     }
 
+    private void loadDivisionListe()
+    {
+        for(DivisionListeElement divisionListeElement : FactoryDAO.getClassementDAO().getAllDivision())
+        {
+            divisionListe.addItem(divisionListeElement);
+        }
+    }
+
+    public void reloadTableDB()
+    {
+        clearTable();
+
+        Classement classement =
+            FactoryDAO.getClassementDAO().selectAllClassement(getDateLong(), isHomme.isSelected() ? "M" : "F",
+                ((DivisionListeElement) divisionListe.getSelectedItem()).getDivision());
+
+        ArrayList<Team> teams = new ArrayList<Team>();
+        teams = (ArrayList<Team>) classement.getTeams();
+
+        for(Team team : teams)
+        {
+            modele.addTeam(team);
+        }
+
+        textAreaErrors.setText("");
+    }
+
     public void saveTableDB()
     {
         modele.orderTeams();
@@ -374,7 +329,7 @@ public class RankingGenerator
     private String getDateString()
     {
 
-        return(dateJournee.getModel().getYear() + "-" + (dateJournee.getModel().getMonth() + 1) + "-" + dateJournee
+        return (dateJournee.getModel().getYear() + "-" + (dateJournee.getModel().getMonth() + 1) + "-" + dateJournee
             .getModel().getDay());
     }
 
@@ -490,8 +445,9 @@ public class RankingGenerator
         {
             html.append("	<tr>" + RN);
             html.append("		<td class=\"rang\">" + team.getRank() + "</td>" + RN);
-            html.append("		<td class=\"drapeau\"><img src=\"http://www.kin-ball.fr/images/clubs/logo_" + team.getLogo()
-                + "_mini.png\" border=\"0\"/></td>" + RN);
+            html.append(
+                "		<td class=\"drapeau\"><img src=\"http://www.kin-ball.fr/images/clubs/logo_" + team.getLogo()
+                    + "_mini.png\" border=\"0\"/></td>" + RN);
             html.append("		<td class=\"equipe\">" + team.getTeam() + "</td>" + RN);
             html.append("		<td class=\"points\">" + team.getPoints() + "</td>" + RN);
             html.append("		<td class=\"mj\">" + team.getMj() + "</td>" + RN);
@@ -549,6 +505,47 @@ public class RankingGenerator
             catch(IOException e)
             {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    private class AddAction
+        extends AbstractAction
+    {
+        private AddAction()
+        {
+            super("Ajouter");
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+            modele.addTeam(new Team("", "", "", "", "", "", "", "", "", "", ""));
+        }
+    }
+
+    private class RemoveAction
+        extends AbstractAction
+    {
+        private RemoveAction()
+        {
+            super("Supprimmer");
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+            int[] selection = tableau.getSelectedRows();
+            int[] modelIndexes = new int[selection.length];
+
+            for(int i = 0; i < selection.length; i++)
+            {
+                modelIndexes[i] = tableau.getRowSorter().convertRowIndexToModel(selection[i]);
+            }
+
+            Arrays.sort(modelIndexes);
+
+            for(int i = modelIndexes.length - 1; i >= 0; i--)
+            {
+                modele.removeTeam(modelIndexes[i]);
             }
         }
     }

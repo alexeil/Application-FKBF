@@ -11,6 +11,11 @@ public class Match
     private String arbitreChef;
     private String arbitreAdjoint;
 
+    public Match()
+    {
+
+    }
+
     public Match(int id, String id_match, Equipe bleu, Equipe gris, Equipe noir, String arbitreChef,
                  String arbitreAdjoint)
     {

@@ -1,10 +1,10 @@
 package src.main.java.dao;
 
 import org.apache.log4j.Logger;
-
 import src.main.java.classement.Classement;
 import src.main.java.classement.Team;
 import src.main.java.metier.DivisionListeElement;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,9 +18,8 @@ public class ClassementDAO
 {
 
     private final static Logger LOGGER = Logger.getLogger(ClassementDAO.class.getName());
-
-    private Connection connection;
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private Connection connection;
 
     /**
      * Constructeur
@@ -33,12 +32,10 @@ public class ClassementDAO
     public void deleteClassement(Classement classement)
     {
         Statement stm;
+        StringBuilder requete = new StringBuilder();
         try
         {
             stm = connection.createStatement();
-
-            StringBuilder requete = new StringBuilder();
-
             requete.append("DELETE FROM classement WHERE  ");
             requete.append(" division = '" + classement.getPoule() + "' AND ");
             requete.append(" sexe ='" + classement.getSexe() + "' AND");
@@ -51,7 +48,7 @@ public class ClassementDAO
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            LOGGER.error(requete, e);
         }
     }
 
@@ -67,7 +64,8 @@ public class ClassementDAO
             StringBuilder subRequete = new StringBuilder();
 
             requete
-                .append("INSERT INTO classement  (  division , sexe , date ,  rang ,  logo ,  nom_equipe ,  points ,  match_joue , premiere_place ,  deuxieme_place ,  troisieme_place ,  forfait , nb_periode ,  esprit_sportif )");
+                .append(
+                    "INSERT INTO classement  (  division , sexe , date ,  rang ,  logo ,  nom_equipe ,  points ,  match_joue , premiere_place ,  deuxieme_place ,  troisieme_place ,  forfait , nb_periode ,  esprit_sportif )");
             requete.append(" VALUES (");
             requete.append("'" + classement.getPoule() + "',");
             requete.append("'" + classement.getSexe() + "',");
