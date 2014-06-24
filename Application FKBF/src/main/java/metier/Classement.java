@@ -2,7 +2,7 @@ package main.java.metier;
 
 import java.sql.Date;
 
-public class Classement
+public class Classement implements java.io.Serializable
 {
 
     private int idClassement;

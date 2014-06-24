@@ -1,6 +1,6 @@
 package main.java.metier;
 
-public class Match
+public class Match implements java.io.Serializable
 {
 
     private int id;

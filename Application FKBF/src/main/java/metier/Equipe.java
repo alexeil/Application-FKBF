@@ -1,6 +1,6 @@
 package main.java.metier;
 
-public class Equipe
+public class Equipe implements java.io.Serializable
 {
     private int id_equipe;
     private String color;

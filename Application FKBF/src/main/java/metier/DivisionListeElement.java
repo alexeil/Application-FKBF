@@ -1,6 +1,6 @@
 package main.java.metier;
 
-public class DivisionListeElement
+public class DivisionListeElement implements java.io.Serializable
 {
 
     private String division;
