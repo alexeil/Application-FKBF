@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+
+<table catalog="application_fkbf" name="match">
+		<column name="id"></column>
+		<column name="id_match"></column>
+		<column name="bleu"></column>
+		<column name="gris"></column>
+		<column name="noir"></column>
+		<column name="arbitre_chef"></column>
+		<column name="arbitre_adjoint"></column>
+	</table>
+	<table catalog="application_fkbf" name="equipe">
+		<column name="id_equipe"></column>
+		<column name="color"></column>
+		<column name="nom_equipe"></column>
+		<column name="isForfait"></column>
+		<column name="p1"></column>
+		<column name="p2"></column>
+		<column name="p3"></column>
+		<column name="p4"></column>
+		<column name="p5"></column>
+		<column name="p6"></column>
+		<column name="p7"></column>
+		<column name="prol1"></column>
+		<column name="prol2"></column>
+		<column name="prol3"></column>
+		<column name="prol4"></column>
+		<column name="prol5"></column>
+		<column name="prol6"></column>
+		<column name="prol7"></column>
+		<column name="prol_deuxieme"></column>
+		<column name="nb_periode"></column>
+		<column name="esprit_sportif"></column>
+		<column name="points"></column>
+	</table>
+	<table catalog="application_fkbf" name="classement_html">
+		<column name="id_classement"></column>
+		<column name="Date"></column>
+		<column name="division"></column>
+		<column name="sexe"></column>
+		<column name="html"></column>
+	</table>
+	<table catalog="application_fkbf" name="classement">
+		<column name="id_classement"></column>
+		<column name="division"></column>
+		<column name="sexe"></column>
+		<column name="date"></column>
+		<column name="rang"></column>
+		<column name="logo"></column>
+		<column name="nom_equipe"></column>
+		<column name="points"></column>
+		<column name="match_joue"></column>
+		<column name="premiere_place"></column>
+		<column name="deuxieme_place"></column>
+		<column name="troisieme_place"></column>
+		<column name="forfait"></column>
+		<column name="nb_periode"></column>
+		<column name="esprit_sportif"></column>
+	</table>
+	<table catalog="application_fkbf" name="match_html">
+		<column name="id_match"></column>
+		<column name="identifiant_match"></column>
+		<column name="html"></column>
+	</table>
+</hibernate-reverse-engineering>

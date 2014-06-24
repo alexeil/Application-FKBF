@@ -1,4 +1,4 @@
-package main.java.metier;
+package main.java.metier.old;
 
 public class DivisionListeElement implements java.io.Serializable
 {

@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import main.java.metier.Classement;
+import main.java.metier.old.Classement;
 
 public class ClassementHtmlDAO
 {

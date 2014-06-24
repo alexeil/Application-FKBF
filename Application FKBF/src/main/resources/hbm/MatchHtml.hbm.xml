@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24 juin 2014 21:13:40 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="main.java.metier.MatchHtml" table="match_html" catalog="application_fkbf">
+        <id name="idMatch" type="java.lang.Integer">
+            <column name="id_match"/>
+            <generator class="identity"/>
+        </id>
+
+        <many-to-one name="match" class="main.java.metier.Match"
+                     column="identifiant_match" unique="true" not-null="true"
+                     cascade="all"/>
+
+        <!--<property name="match" type="main.java.metier.Match">-->
+        <!--<column name="identifiant_match"/>-->
+        <!--</property>-->
+
+        <property name="html" type="string">
+            <column name="html"/>
+        </property>
+
+
+    </class>
+</hibernate-mapping>

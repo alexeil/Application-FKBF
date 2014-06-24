@@ -2,7 +2,7 @@ package main.java.dao;
 
 import main.java.classement.Classement;
 import main.java.classement.Team;
-import main.java.metier.DivisionListeElement;
+import main.java.metier.old.DivisionListeElement;
 
 import org.apache.log4j.Logger;
 

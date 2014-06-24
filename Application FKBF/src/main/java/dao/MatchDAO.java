@@ -1,8 +1,7 @@
 package main.java.dao;
 
-import main.java.metier.Equipe;
-import main.java.metier.Match;
-
+import main.java.metier.old.Equipe;
+import main.java.metier.old.Match;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MatchDAO
+    extends CommonDAO
 {
     private final static Logger LOGGER = Logger.getLogger(MatchDAO.class.getName());
 
@@ -60,7 +60,7 @@ public class MatchDAO
 
             LOGGER.debug("Requete SQL : " + requete);
 
-            new MatchHTMLDAO().save(match, html);
+            //            new MatchHTMLDAO().save(match, html);
 
         }
         catch(SQLException e)

@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24 juin 2014 21:13:40 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="main.java.metier.Equipe" table="equipe" catalog="application_fkbf">
+        <id name="idEquipe" type="java.lang.Integer">
+            <column name="id_equipe"/>
+            <generator class="identity"/>
+        </id>
+        <property name="color" type="string">
+            <column name="color" length="10"/>
+        </property>
+        <property name="nomEquipe" type="string">
+            <column name="nom_equipe" length="50"/>
+        </property>
+        <property name="forfait" type="boolean">
+            <column name="isForfait"/>
+        </property>
+        <property name="p1" type="int">
+            <column name="p1"/>
+        </property>
+        <property name="p2" type="int">
+            <column name="p2"/>
+        </property>
+        <property name="p3" type="int">
+            <column name="p3"/>
+        </property>
+        <property name="p4" type="int">
+            <column name="p4"/>
+        </property>
+        <property name="p5" type="int">
+            <column name="p5"/>
+        </property>
+        <property name="p6" type="int">
+            <column name="p6"/>
+        </property>
+        <property name="p7" type="int">
+            <column name="p7"/>
+        </property>
+        <property name="prol1" type="int">
+            <column name="prol1"/>
+        </property>
+        <property name="prol2" type="int">
+            <column name="prol2"/>
+        </property>
+        <property name="prol3" type="int">
+            <column name="prol3"/>
+        </property>
+        <property name="prol4" type="int">
+            <column name="prol4"/>
+        </property>
+        <property name="prol5" type="int">
+            <column name="prol5"/>
+        </property>
+        <property name="prol6" type="int">
+            <column name="prol6"/>
+        </property>
+        <property name="prol7" type="int">
+            <column name="prol7"/>
+        </property>
+        <property name="prolDeuxieme" type="int">
+            <column name="prol_deuxieme"/>
+        </property>
+        <property name="nbPeriode" type="int">
+            <column name="nb_periode"/>
+        </property>
+        <property name="espritSportif" type="int">
+            <column name="esprit_sportif"/>
+        </property>
+        <property name="points" type="int">
+            <column name="points"/>
+        </property>
+
+    </class>
+</hibernate-mapping>

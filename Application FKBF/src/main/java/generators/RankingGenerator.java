@@ -2,7 +2,7 @@ package main.java.generators;
 
 import main.java.classement.*;
 import main.java.dao.FactoryDAO;
-import main.java.metier.DivisionListeElement;
+import main.java.metier.old.DivisionListeElement;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilCalendarModel;

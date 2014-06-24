@@ -1,14 +1,13 @@
 package main.java.generators;
 
 import main.java.dao.FactoryDAO;
-import main.java.dao.MatchDAO;
+import main.java.dao.MatchHTMLDAO;
 import main.java.metier.Equipe;
 import main.java.metier.Match;
-
+import main.java.metier.MatchHtml;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -1623,13 +1622,16 @@ public class FeuilleDeMatchGenerator
 
         Match match = new Match(idMatch.getText(), bleu, gris, noir, arbitreChef.getText(), arbitreAdjoint.getText());
 
-        new MatchDAO().save(match, this.createHtml(match));
+        MatchHtml matchHtml = new MatchHtml(match, this.createHtml(match).toString());
+
+        new MatchHTMLDAO().save(matchHtml);
     }
 
     private void loadDB()
     {
-        Match match = FactoryDAO.getMatchDAO().getMatchFromID(listID.getSelectedItem().toString());
+        //        Match match = FactoryDAO.getMatchDAO().getMatchFromID(listID.getSelectedItem().toString());
 
+        Match match = new Match();
         idMatch.setText(match.getIdMatch());
 
         Equipe bleu = match.getBleu();
@@ -1649,9 +1651,9 @@ public class FeuilleDeMatchGenerator
         prol5B.setText(String.valueOf(bleu.getProl5()));
         prol6B.setText(String.valueOf(bleu.getProl6()));
         prol7B.setText(String.valueOf(bleu.getProl7()));
-        prol22B.setText(String.valueOf(bleu.getProl_deuxieme()));
-        periodeGagneeBleu.setText(String.valueOf(bleu.getNb_periode()));
-        espritSportifBleu.setText(String.valueOf(bleu.getEsprit_sportif()));
+        prol22B.setText(String.valueOf(bleu.getProlDeuxieme()));
+        periodeGagneeBleu.setText(String.valueOf(bleu.getNbPeriode()));
+        espritSportifBleu.setText(String.valueOf(bleu.getEspritSportif()));
         pointBleu.setText(String.valueOf(bleu.getPoints()));
 
         Equipe noir = match.getNoir();
@@ -1671,9 +1673,9 @@ public class FeuilleDeMatchGenerator
         prol5N.setText(String.valueOf(bleu.getProl5()));
         prol6N.setText(String.valueOf(bleu.getProl6()));
         prol7N.setText(String.valueOf(bleu.getProl7()));
-        prol22N.setText(String.valueOf(bleu.getProl_deuxieme()));
-        periodeGagneeNoir.setText(String.valueOf(bleu.getNb_periode()));
-        espritSportifNoir.setText(String.valueOf(bleu.getEsprit_sportif()));
+        prol22N.setText(String.valueOf(bleu.getProlDeuxieme()));
+        periodeGagneeNoir.setText(String.valueOf(bleu.getNbPeriode()));
+        espritSportifNoir.setText(String.valueOf(bleu.getEspritSportif()));
         pointNoir.setText(String.valueOf(bleu.getPoints()));
 
         Equipe gris = match.getGris();
@@ -1693,9 +1695,9 @@ public class FeuilleDeMatchGenerator
         prol5G.setText(String.valueOf(bleu.getProl5()));
         prol6G.setText(String.valueOf(bleu.getProl6()));
         prol7G.setText(String.valueOf(bleu.getProl7()));
-        prol22G.setText(String.valueOf(bleu.getProl_deuxieme()));
-        periodeGagneeGris.setText(String.valueOf(bleu.getNb_periode()));
-        espritSportifGris.setText(String.valueOf(bleu.getEsprit_sportif()));
+        prol22G.setText(String.valueOf(bleu.getProlDeuxieme()));
+        periodeGagneeGris.setText(String.valueOf(bleu.getNbPeriode()));
+        espritSportifGris.setText(String.valueOf(bleu.getEspritSportif()));
         pointGris.setText(String.valueOf(bleu.getPoints()));
 
         arbitreChef.setText(match.getArbitreChef());
@@ -1732,7 +1734,7 @@ public class FeuilleDeMatchGenerator
 
         if(!bleu.isForfait())
         {
-            html.append("<td colspan=\"7\">" + bleu.getNb_periode() + "</td>" + RN);
+            html.append("<td colspan=\"7\">" + bleu.getNbPeriode() + "</td>" + RN);
         }
         else
         {
@@ -1741,7 +1743,7 @@ public class FeuilleDeMatchGenerator
 
         if(!gris.isForfait())
         {
-            html.append("<td colspan=\"7\">" + gris.getNb_periode() + "</td>" + RN);
+            html.append("<td colspan=\"7\">" + gris.getNbPeriode() + "</td>" + RN);
         }
         else
         {
@@ -1750,7 +1752,7 @@ public class FeuilleDeMatchGenerator
 
         if(!noir.isForfait())
         {
-            html.append("<td colspan=\"7\">" + noir.getNb_periode() + "</td>" + RN);
+            html.append("<td colspan=\"7\">" + noir.getNbPeriode() + "</td>" + RN);
         }
         else
         {

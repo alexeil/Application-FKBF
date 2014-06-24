@@ -1,15 +1,12 @@
 package main.java.dao;
 
-import main.java.metier.Match;
-
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 
 public class MatchHTMLDAO
+    extends CommonDAO
 {
     private final static Logger LOGGER = Logger.getLogger(MatchHTMLDAO.class.getName());
 
@@ -22,31 +19,32 @@ public class MatchHTMLDAO
     public MatchHTMLDAO()
     {
         this.connection = ConnectionBDD.getInstance();
+
     }
 
-    public void save(Match match, StringBuilder html)
-    {
-        Statement stm;
-        StringBuilder requete = new StringBuilder();
-        try
-        {
-            stm = connection.createStatement();
-
-            requete.append("INSERT INTO match_Html  ( identifiant_match , html )");
-            requete.append(" VALUES (");
-            requete.append("'" + match.getIdMatch() + "',");
-            requete.append("'" + html.toString().replace("'", "\\'") + "' )");
-
-            stm.executeUpdate(requete.toString());
-            stm.close();
-            stm = null;
-
-            LOGGER.debug("Requete SQL : " + requete);
-        }
-        catch(SQLException e)
-        {
-            LOGGER.error("Requete SQL : " + requete);
-            LOGGER.error("SQLException ", e);
-        }
-    }
+    //    public void save(Match match, StringBuilder html)
+    //    {
+    //        Statement stm;
+    //        StringBuilder requete = new StringBuilder();
+    //        try
+    //        {
+    //            stm = connection.createStatement();
+    //
+    //            requete.append("INSERT INTO match_Html  ( identifiant_match , html )");
+    //            requete.append(" VALUES (");
+    //            requete.append("'" + match.getIdMatch() + "',");
+    //            requete.append("'" + html.toString().replace("'", "\\'") + "' )");
+    //
+    //            stm.executeUpdate(requete.toString());
+    //            stm.close();
+    //            stm = null;
+    //
+    //            LOGGER.debug("Requete SQL : " + requete);
+    //        }
+    //        catch(SQLException e)
+    //        {
+    //            LOGGER.error("Requete SQL : " + requete);
+    //            LOGGER.error("SQLException ", e);
+    //        }
+    //    }
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24 juin 2014 21:13:40 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="main.java.metier.Match" table="match" catalog="application_fkbf">
+        <id name="id" type="java.lang.Integer">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+        <property name="idMatch" type="string">
+            <column name="id_match" length="11"/>
+        </property>
+        <property name="arbitreChef" type="string">
+            <column name="arbitre_chef" length="50"/>
+        </property>
+        <property name="arbitreAdjoint" type="string">
+            <column name="arbitre_adjoint" length="50"/>
+        </property>
+
+        <many-to-one name="bleu" class="main.java.metier.Equipe"
+                     column="bleu" unique="true" not-null="true"
+                     cascade="all"/>
+
+        <many-to-one name="gris" class="main.java.metier.Equipe"
+                     column="gris" unique="true" not-null="true"
+                     cascade="all"/>
+
+        <many-to-one name="noir" class="main.java.metier.Equipe"
+                     column="noir" unique="true" not-null="true"
+                     cascade="all"/>
+
+    </class>
+</hibernate-mapping>

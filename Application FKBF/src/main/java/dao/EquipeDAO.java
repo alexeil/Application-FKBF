@@ -1,10 +1,7 @@
 package main.java.dao;
 
-import main.java.hibernate.HibernateUtil;
-import main.java.metier.Equipe;
-
+import main.java.metier.old.Equipe;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,13 +9,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 
-public class EquipeDAO extends CommonDAO
+public class EquipeDAO
+    extends CommonDAO
 {
 
     private final static Logger LOGGER = Logger.getLogger(EquipeDAO.class.getName());
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private Connection connection;
-
 
     /**
      * Constructeur
@@ -275,31 +272,32 @@ public class EquipeDAO extends CommonDAO
         return equipe;
     }
 
-    public void save2(Equipe equipe){
+    public void save2(Equipe equipe)
+    {
         Equipe equipe2Save = new Equipe();
         equipe2Save.setColor(equipe.getColor());
-        equipe2Save.setNomEquipe(  equipe.getNomEquipe() );
-        equipe2Save.setForfait(  equipe.isForfait());
-        equipe2Save.setP1( equipe.getP1() );
-        equipe2Save.setP2( equipe.getP2() );
-        equipe2Save.setP3( equipe.getP3() );
-        equipe2Save.setP4( equipe.getP4() );
-        equipe2Save.setP5( equipe.getP5() );
-        equipe2Save.setP6( equipe.getP6() );
-        equipe2Save.setP7( equipe.getP7() );
-        equipe2Save.setProl1(  equipe.getProl1() );
-        equipe2Save.setProl2(  equipe.getProl2() );
-        equipe2Save.setProl3(  equipe.getProl3() );
-        equipe2Save.setProl4(  equipe.getProl4() );
-        equipe2Save.setProl5(  equipe.getProl5() );
-        equipe2Save.setProl6(  equipe.getProl6() );
-        equipe2Save.setProl7(  equipe.getProl7() );
-        equipe2Save.setProl_deuxieme( equipe.getProl_deuxieme() );
-        equipe2Save.setNb_periode( equipe.getNb_periode() );
-        equipe2Save.setEsprit_sportif( equipe.getEsprit_sportif() );
-        equipe2Save.setPoints( equipe.getPoints() );
+        equipe2Save.setNomEquipe(equipe.getNomEquipe());
+        equipe2Save.setForfait(equipe.isForfait());
+        equipe2Save.setP1(equipe.getP1());
+        equipe2Save.setP2(equipe.getP2());
+        equipe2Save.setP3(equipe.getP3());
+        equipe2Save.setP4(equipe.getP4());
+        equipe2Save.setP5(equipe.getP5());
+        equipe2Save.setP6(equipe.getP6());
+        equipe2Save.setP7(equipe.getP7());
+        equipe2Save.setProl1(equipe.getProl1());
+        equipe2Save.setProl2(equipe.getProl2());
+        equipe2Save.setProl3(equipe.getProl3());
+        equipe2Save.setProl4(equipe.getProl4());
+        equipe2Save.setProl5(equipe.getProl5());
+        equipe2Save.setProl6(equipe.getProl6());
+        equipe2Save.setProl7(equipe.getProl7());
+        equipe2Save.setProl_deuxieme(equipe.getProl_deuxieme());
+        equipe2Save.setNb_periode(equipe.getNb_periode());
+        equipe2Save.setEsprit_sportif(equipe.getEsprit_sportif());
+        equipe2Save.setPoints(equipe.getPoints());
 
-        this.saveToDB(equipe);
+        //        this.saveToDB(equipe);
     }
 
 }
