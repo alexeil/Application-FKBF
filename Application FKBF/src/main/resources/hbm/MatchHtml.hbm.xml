@@ -13,10 +13,6 @@
                      column="identifiant_match" unique="true" not-null="true"
                      cascade="all"/>
 
-        <!--<property name="match" type="main.java.metier.Match">-->
-        <!--<column name="identifiant_match"/>-->
-        <!--</property>-->
-
         <property name="html" type="string">
             <column name="html"/>
         </property>

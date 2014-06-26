@@ -1624,11 +1624,13 @@ public class FeuilleDeMatchGenerator
 
         MatchHtml matchHtml = new MatchHtml(match, this.createHtml(match).toString());
 
-        new MatchHTMLDAO().save(matchHtml);
+        FactoryDAO.getMatchHtmlDAO().save(matchHtml);
     }
 
     private void loadDB()
     {
+
+        Match matchHtml = new MatchHTMLDAO().findByIdMatch(listID.getSelectedItem().toString());
         //        Match match = FactoryDAO.getMatchDAO().getMatchFromID(listID.getSelectedItem().toString());
 
         Match match = new Match();

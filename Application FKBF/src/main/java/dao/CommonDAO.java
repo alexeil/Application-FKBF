@@ -35,5 +35,4 @@ public class CommonDAO
         session.delete(object);
         session.getTransaction().commit();
     }
-
 }
