@@ -1,9 +1,9 @@
 package main.java.generators;
 
 import main.java.classement.*;
-import main.java.classement.Classement;
 import main.java.dao.FactoryDAO;
 import main.java.metier.*;
+import main.java.metier.Classement;
 import main.java.metier.old.DivisionListeElement;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -25,6 +25,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class RankingGenerator
@@ -261,15 +262,15 @@ public class RankingGenerator
 
         Classement classement = ReadAndPrintXMLFile.getClassementFromXML(url);
 
-        ArrayList<Team> teams = new ArrayList<Team>();
-        teams = (ArrayList<Team>) classement.getTeams();
+        ArrayList<ClassementEquipe> teams = new ArrayList<ClassementEquipe>();
+        teams = (ArrayList<ClassementEquipe>) classement.getClassementEquipes();
 
-        for(Team team : teams)
+        for(ClassementEquipe team : teams)
         {
             modele.addTeam(team);
         }
 
-        division.setText(classement.getPoule());
+        division.setText(classement.getDivision());
         textAreaErrors.setText("");
     }
 
@@ -293,29 +294,30 @@ public class RankingGenerator
 
     private void loadDivisionListe()
     {
-        for(DivisionListeElement divisionListeElement : FactoryDAO.getClassementDAO().getAllDivision())
+      /*  for(DivisionListeElement divisionListeElement : FactoryDAO.getClassementDAO().getAllDivision())
         {
             divisionListe.addItem(divisionListeElement);
-        }
+        }*/
     }
 
     public void reloadTableDB()
     {
         clearTable();
 
-        Classement classement =
+        //FIXME
+       /* Classement classement =
             FactoryDAO.getClassementDAO().selectAllClassement(getDateLong(), isHomme.isSelected() ? "M" : "F",
                 ((DivisionListeElement) divisionListe.getSelectedItem()).getDivision());
 
-        ArrayList<Team> teams = new ArrayList<Team>();
-        teams = (ArrayList<Team>) classement.getTeams();
+        ArrayList<ClassementEquipe> teams = new ArrayList<ClassementEquipe>();
+        teams = (ArrayList<ClassementEquipe>) classement.getClassementEquipes();
 
-        for(Team team : teams)
+        for(ClassementEquipe team : teams)
         {
             modele.addTeam(team);
         }
 
-        textAreaErrors.setText("");
+        textAreaErrors.setText("");*/
     }
 
     public void saveTableDB()
@@ -323,19 +325,25 @@ public class RankingGenerator
         modele.orderTeams();
 
 
-        Classement classement =
-            new Classement(division.getText(), modele.getTeams(), getDateLong(), isHomme.isSelected());
+        Classement classement = new Classement();
+        classement.setClassementEquipes(modele.getTeams());
+        classement.setDivision(division.getText());
+        classement.setDate( getDate());
+        classement.setSexe((isHomme.isSelected()? "M" : "F"));
 
-        ClassementHtml classementHtml = new ClassementHtml();
-        main.java.metier.Classement classementMetier = new main.java.metier.Classement();
+        classement.setHtml(createHtml(classement).toString());
+
+        FactoryDAO.getClassementDAO().saveOrUpdate(classement);
+       /* Classement classementHtml = new Classement();
+        ClassementEquipe classementMetier = new ClassementEquipe(rank, logo, sTeam, points, mj, first, second, third, forfeit, nbPeriodes, fairPlay);
 
        /* classementHtml.setClassement(Classement);
         classementHtml.setHtml(createHtml(classement).toString());
 
         FactoryDAO.getClassementDAO().saveOrUpdate(classementHtml);*/
-        FactoryDAO.getClassementDAO().insertClassement(classement);
+      /*  FactoryDAO.getClassementDAO().insertClassement(classement);
         FactoryDAO.getClassementHtmlDAO().deleteClassementHtml(classement);
-        FactoryDAO.getClassementHtmlDAO().insertClassement(classement, createHtml(classement));
+        FactoryDAO.getClassementHtmlDAO().insertClassement(classement, createHtml(classement));*/
     }
 
     private String getDateString()
@@ -359,6 +367,20 @@ public class RankingGenerator
         return date;
     }
 
+    private Date getDate()
+    {
+        long date = 0;
+        try
+        {
+            date = DATE_FORMAT.parse(getDateString()).getTime();
+        }
+        catch(ParseException e)
+        {
+            e.printStackTrace();
+        }
+        return new Date(date);
+    }
+
     private void checkAll()
     {
         modele.orderTeams();
@@ -375,17 +397,17 @@ public class RankingGenerator
         int nbPeriode = 0;
         int espritSportif = 0;
 
-        List<Team> teams = modele.getTeams();
+        List<ClassementEquipe> teams = modele.getTeams();
 
-        for(Team team : teams)
+        for(ClassementEquipe team : teams)
         {
 
-            first = Integer.parseInt(team.getFirst().replace("-", "0"));
-            second = Integer.parseInt(team.getSecond().replace("-", "0"));
-            third = Integer.parseInt(team.getThird().replace("-", "0"));
-            forfeit = Integer.parseInt(team.getForfeit().replace("-", "0"));
-            nbPeriode = Integer.parseInt(team.getNbPeriodes().replace("-", "0"));
-            espritSportif = Integer.parseInt(team.getFairPlay().replace("-", "0"));
+            first = Integer.parseInt(team.getPremierePlace().replace("", "0"));
+            second = Integer.parseInt(team.getDeuxiemePlace().replace("", "0"));
+            third = Integer.parseInt(team.getTroisiemePlace().replace("", "0"));
+            forfeit = Integer.parseInt(team.getForfait().replace("", "0"));
+            nbPeriode = Integer.parseInt(team.getNbPeriode().replace("", "0"));
+            espritSportif = Integer.parseInt(team.getEspritSportif().replace("", "0"));
 
             sumPoints = first * FIRST + second * SECOND + third * THIRD + forfeit * FORFEIT + nbPeriode + espritSportif;
 
@@ -393,19 +415,19 @@ public class RankingGenerator
 
             if(sumPoints != Integer.parseInt(team.getPoints().replace("-", "0")))
             {
-                errors.append(team.getTeam() + " : " + team.getPoints() + " diff�rent de " + sumPoints + RN);
+                errors.append(team.getNomEquipe() + " : " + team.getPoints() + " different de " + sumPoints + RN);
                 error = true;
             }
 
-            if(sumMatchs != Integer.parseInt(team.getMj().replace("-", "0")))
+            if(sumMatchs != Integer.parseInt(team.getMatchJoue().replace("-", "0")))
             {
-                errors.append(team.getTeam() + " : " + team.getMj() + " diff�rent de " + sumMatchs + RN);
+                errors.append(team.getNomEquipe() + " : " + team.getMatchJoue() + " different de " + sumMatchs + RN);
                 error = true;
             }
 
             if(!error)
             {
-                errors.append(team.getTeam() + " : OK ! " + RN);
+                errors.append(team.getNomEquipe() + " : OK ! " + RN);
             }
 
             error = false;
@@ -428,7 +450,7 @@ public class RankingGenerator
         Classement classement = new Classement(division.getText(), modele.getTeams());
         StringBuilder html = createHtml(classement);
 
-        writeToFile(classement.getPoule() + "_" + System.currentTimeMillis(), html);
+        writeToFile(classement.getDivision() + "_" + System.currentTimeMillis(), html);
         System.out.println(html.toString());
     }
 
@@ -438,7 +460,7 @@ public class RankingGenerator
 
         html.append("<table class=\"tableau_classement_poule\" cellspacing=\"0\">" + RN);
         html.append("	<tr class=\"premiere_ligne\">" + RN);
-        html.append("		<td colspan=\"11\">" + classement.getPoule() + "</td>" + RN);
+        html.append("		<td colspan=\"11\">" + classement.getDivision() + "</td>" + RN);
         html.append("	</tr>" + RN);
 
         html.append("	<tr class=\"premiere_ligne\">" + RN);
@@ -453,22 +475,22 @@ public class RankingGenerator
         html.append("		<td>Esprit sportif</td>" + RN);
         html.append("	</tr>" + RN);
 
-        for(Team team : classement.getTeams())
+        for(ClassementEquipe team : classement.getClassementEquipes())
         {
             html.append("	<tr>" + RN);
-            html.append("		<td class=\"rang\">" + team.getRank() + "</td>" + RN);
+            html.append("		<td class=\"rang\">" + team.getRang() + "</td>" + RN);
             html.append(
                 "		<td class=\"drapeau\"><img src=\"http://www.kin-ball.fr/images/clubs/logo_" + team.getLogo()
                     + "_mini.png\" border=\"0\"/></td>" + RN);
-            html.append("		<td class=\"equipe\">" + team.getTeam() + "</td>" + RN);
+            html.append("		<td class=\"equipe\">" + team.getNomEquipe() + "</td>" + RN);
             html.append("		<td class=\"points\">" + team.getPoints() + "</td>" + RN);
-            html.append("		<td class=\"mj\">" + team.getMj() + "</td>" + RN);
-            html.append("		<td class=\"1erep\">" + team.getFirst() + "</td>" + RN);
-            html.append("		<td class=\"2emep\">" + team.getSecond() + "</td>" + RN);
-            html.append("		<td class=\"3emep\">" + team.getThird() + "</td>" + RN);
-            html.append("		<td class=\"forfait\">" + team.getForfeit() + "</td>" + RN);
-            html.append("		<td class=\"periodes\">" + team.getNbPeriodes() + "</td>" + RN);
-            html.append("		<td class=\"fairplay\">" + team.getFairPlay() + "</td>" + RN);
+            html.append("		<td class=\"mj\">" + team.getMatchJoue() + "</td>" + RN);
+            html.append("		<td class=\"1erep\">" + team.getPremierePlace() + "</td>" + RN);
+            html.append("		<td class=\"2emep\">" + team.getDeuxiemePlace() + "</td>" + RN);
+            html.append("		<td class=\"3emep\">" + team.getTroisiemePlace() + "</td>" + RN);
+            html.append("		<td class=\"forfait\">" + team.getForfait() + "</td>" + RN);
+            html.append("		<td class=\"periodes\">" + team.getNbPeriode() + "</td>" + RN);
+            html.append("		<td class=\"fairplay\">" + team.getEspritSportif() + "</td>" + RN);
             html.append("	</tr>" + RN);
         }
 
@@ -531,7 +553,7 @@ public class RankingGenerator
 
         public void actionPerformed(ActionEvent e)
         {
-            modele.addTeam(new Team("", "", "", "", "", "", "", "", "", "", ""));
+            modele.addTeam(new ClassementEquipe("", "", "", "", "", "", "", "", "", "", ""));
         }
     }
 

@@ -15,15 +15,7 @@ public class EquipeDAO
 
     private final static Logger LOGGER = Logger.getLogger(EquipeDAO.class.getName());
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-    private Connection connection;
 
-    /**
-     * Constructeur
-     */
-    public EquipeDAO()
-    {
-        this.connection = ConnectionBDD.getInstance();
-    }
 
     // public void insertClassement(classement.Classement classement) {
     //
@@ -158,7 +150,7 @@ public class EquipeDAO
     //
     // return DivisionListeElements;
     // }
-
+/*
     public int save(Equipe equipe)
     {
         Statement stm;
@@ -219,7 +211,8 @@ public class EquipeDAO
         }
         return 0;
     }
-
+*/
+    /*
     public Equipe getEquipeFromId(int idEquipe)
     {
 
@@ -299,6 +292,6 @@ public class EquipeDAO
 
         //        this.saveToDB(equipe);
     }
-
+*/
 }
 

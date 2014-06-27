@@ -1,7 +1,5 @@
 package main.java.dao;
 
-import main.java.classement.Classement;
-import main.java.classement.Team;
 import main.java.metier.old.DivisionListeElement;
 
 import org.apache.log4j.Logger;
@@ -15,16 +13,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ClassementDAO
+public class ClassementDAO  extends CommonDAO
 {
 
     private final static Logger LOGGER = Logger.getLogger(ClassementDAO.class.getName());
+
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-    private Connection connection;
+
+
 
     /**
      * Constructeur
-     */
+     *//*
     public ClassementDAO()
     {
         this.connection = ConnectionBDD.getInstance();
@@ -192,5 +192,5 @@ public class ClassementDAO
         }
 
         return DivisionListeElements;
-    }
+    }*/
 }

@@ -9,15 +9,14 @@ import java.util.Date;
 
 import main.java.metier.old.Classement;
 
-public class ClassementHtmlDAO
+public class ClassementEquipeDAO extends CommonDAO
 {
 
-    private Connection connection;
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * Constructeur
-     */
+     *//*
     public ClassementHtmlDAO()
     {
         this.connection = ConnectionBDD.getInstance();
@@ -107,5 +106,5 @@ public class ClassementHtmlDAO
             System.err.println("Error: queryColumns(): " + requete);
             e.printStackTrace();
         }
-    }
+    }*/
 }

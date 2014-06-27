@@ -3,7 +3,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 24 juin 2014 21:13:40 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="main.java.metier.Equipe" table="equipe" catalog="application_fkbf">
+    <class name="main.java.metier.MatchEquipe" table="match_equipe" catalog="application_fkbf">
         <id name="idEquipe" type="java.lang.Integer">
             <column name="id_equipe"/>
             <generator class="identity"/>

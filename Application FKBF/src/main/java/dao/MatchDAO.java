@@ -1,6 +1,5 @@
 package main.java.dao;
 
-import main.java.metier.Equipe;
 import main.java.metier.Match;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
@@ -17,15 +16,6 @@ public class MatchDAO
 {
     private final static Logger LOGGER = Logger.getLogger(MatchDAO.class.getName());
 
-    private Connection connection;
-
-    /**
-     * Constructeur
-     */
-    public MatchDAO()
-    {
-        this.connection = ConnectionBDD.getInstance();
-    }
 
     public void save(Match match, StringBuilder html)
     {
@@ -81,9 +71,20 @@ public class MatchDAO
         return (List<String>) query.list();
     }
 
+    public boolean isIdMatchAlreadyExists(String idMatch)
+    {
+        return (null != this.findByIdMatch(idMatch));
+    }
 
+    public Match findByIdMatch(String idMatch)
+    {
+        Query query = session.createQuery(
+                "SELECT m from Match m where m.idMatch= :idMatch")
+                .setParameter("idMatch", idMatch);
+        return (Match) query.uniqueResult();
+    }
 
-
+/*
     public Match getMatchFromID(String id)
     {
         Match match = new Match();
@@ -100,9 +101,9 @@ public class MatchDAO
             while(resultat.next())
             {
                 match.setIdMatch(resultat.getString("id_match"));
-              /*  match.setBleu(new EquipeDAO().getEquipeFromId(resultat.getInt("bleu")));
+               match.setBleu(new EquipeDAO().getEquipeFromId(resultat.getInt("bleu")));
                 match.setGris(new EquipeDAO().getEquipeFromId(resultat.getInt("gris")));
-                match.setNoir(new EquipeDAO().getEquipeFromId(resultat.getInt("noir")));*/
+                match.setNoir(new EquipeDAO().getEquipeFromId(resultat.getInt("noir")));
                 match.setArbitreChef(resultat.getString("arbitre_chef"));
                 match.setArbitreAdjoint(resultat.getString("arbitre_adjoint"));
             }
@@ -118,5 +119,5 @@ public class MatchDAO
         }
 
         return match;
-    }
+    }*/
 }

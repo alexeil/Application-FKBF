@@ -1,5 +1,7 @@
 package main.java.classement;
 
+import main.java.metier.ClassementEquipe;
+
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +11,7 @@ import java.util.List;
 public class ModeleModifiable
     extends AbstractTableModel
 {
-    private List<Team> teams = new ArrayList<Team>();
+    private List<ClassementEquipe> teams = new ArrayList<ClassementEquipe>();
 
     private final String[] entetes = { "Rang", "Logo", "Equipe", "Points", "MJ", "1�re place", "2�me place",
         "3�me place", "Forfait", "Nb P�riodes", "Esprit sportif" };
@@ -39,27 +41,27 @@ public class ModeleModifiable
         switch(columnIndex)
         {
             case 0:
-                return teams.get(rowIndex).getRank();
+                return teams.get(rowIndex).getRang();
             case 1:
                 return teams.get(rowIndex).getLogo();
             case 2:
-                return teams.get(rowIndex).getTeam();
+                return teams.get(rowIndex).getNomEquipe();
             case 3:
                 return teams.get(rowIndex).getPoints();
             case 4:
-                return teams.get(rowIndex).getMj();
+                return teams.get(rowIndex).getMatchJoue();
             case 5:
-                return teams.get(rowIndex).getFirst();
+                return teams.get(rowIndex).getPremierePlace();
             case 6:
-                return teams.get(rowIndex).getSecond();
+                return teams.get(rowIndex).getDeuxiemePlace();
             case 7:
-                return teams.get(rowIndex).getThird();
+                return teams.get(rowIndex).getTroisiemePlace();
             case 8:
-                return teams.get(rowIndex).getForfeit();
+                return teams.get(rowIndex).getForfait();
             case 9:
-                return teams.get(rowIndex).getNbPeriodes();
+                return teams.get(rowIndex).getNbPeriode();
             case 10:
-                return teams.get(rowIndex).getFairPlay();
+                return teams.get(rowIndex).getEspritSportif();
             default:
                 return null; // Ne devrait jamais arriver
         }
@@ -82,50 +84,50 @@ public class ModeleModifiable
     {
         if(aValue != null)
         {
-            Team team = teams.get(rowIndex);
+            ClassementEquipe team = teams.get(rowIndex);
 
             switch(columnIndex)
             {
 
                 case 0:
-                    team.setRank((String) aValue);
+                    team.setRang((String) aValue);
                     break;
                 case 1:
                     team.setLogo((String) aValue);
                     break;
                 case 2:
-                    team.setTeam((String) aValue);
+                    team.setNomEquipe((String) aValue);
                     break;
                 case 3:
                     team.setPoints((String) aValue);
                     break;
                 case 4:
-                    team.setMj((String) aValue);
+                    team.setMatchJoue((String) aValue);
                     break;
                 case 5:
-                    team.setFirst((String) aValue);
+                    team.setPremierePlace((String) aValue);
                     break;
                 case 6:
-                    team.setSecond((String) aValue);
+                    team.setDeuxiemePlace((String) aValue);
                     break;
                 case 7:
-                    team.setThird((String) aValue);
+                    team.setTroisiemePlace((String) aValue);
                     break;
                 case 8:
-                    team.setForfeit((String) aValue);
+                    team.setForfait((String) aValue);
                     break;
                 case 9:
-                    team.setNbPeriodes((String) aValue);
+                    team.setNbPeriode((String) aValue);
                     break;
                 case 10:
-                    team.setFairPlay((String) aValue);
+                    team.setEspritSportif((String) aValue);
                     break;
 
             }
         }
     }
 
-    public void addTeam(Team team)
+    public void addTeam(ClassementEquipe team)
     {
         teams.add(team);
 
@@ -139,24 +141,24 @@ public class ModeleModifiable
         fireTableRowsDeleted(rowIndex, rowIndex);
     }
 
-    public List<Team> getTeams()
+    public List<ClassementEquipe> getTeams()
     {
         return teams;
     }
 
-    public void setTeams(List<Team> teams)
+    public void setTeams(List<ClassementEquipe> teams)
     {
         this.teams = teams;
     }
 
     public void orderTeams()
     {
-        Collections.sort(teams, new Comparator<Team>()
+        Collections.sort(teams, new Comparator<ClassementEquipe>()
         {
             @Override
-            public int compare(Team arg0, Team arg1)
+            public int compare(ClassementEquipe arg0, ClassementEquipe arg1)
             {
-                return arg0.getRank().compareTo(arg1.getRank());
+                return arg0.getRang().compareTo(arg1.getRang());
             }
         });
     }

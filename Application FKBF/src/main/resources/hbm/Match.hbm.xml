@@ -18,17 +18,19 @@
             <column name="arbitre_adjoint" length="50"/>
         </property>
 
-        <many-to-one name="bleu" class="main.java.metier.Equipe"
+        <many-to-one name="bleu" class="main.java.metier.MatchEquipe"
                      column="bleu" unique="true" not-null="true"
                      cascade="all"/>
 
-        <many-to-one name="gris" class="main.java.metier.Equipe"
+        <many-to-one name="gris" class="main.java.metier.MatchEquipe"
                      column="gris" unique="true" not-null="true"
                      cascade="all"/>
 
-        <many-to-one name="noir" class="main.java.metier.Equipe"
+        <many-to-one name="noir" class="main.java.metier.MatchEquipe"
                      column="noir" unique="true" not-null="true"
                      cascade="all"/>
-
+        <property name="html" type="string">
+            <column name="html"/>
+        </property>
     </class>
 </hibernate-mapping>

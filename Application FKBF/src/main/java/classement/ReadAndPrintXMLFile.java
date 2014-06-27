@@ -1,5 +1,7 @@
 package main.java.classement;
 
+import main.java.metier.Classement;
+import main.java.metier.ClassementEquipe;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -28,22 +30,22 @@ public class ReadAndPrintXMLFile
             Document doc = docBuilder.newDocument();
             Element rootElement = doc.createElement("poule");
             doc.appendChild(rootElement);
-            rootElement.setAttribute("poule", classement.getPoule());
+            rootElement.setAttribute("poule", classement.getDivision());
 
-            for(Team team : classement.getTeams())
+            for(ClassementEquipe team : classement.getClassementEquipes())
             {
                 Element elemTeam = doc.createElement("equipe");
-                elemTeam.setAttribute("rank", team.getRank());
+                elemTeam.setAttribute("rank", team.getRang());
                 elemTeam.setAttribute("logo", team.getLogo());
-                elemTeam.setAttribute("team", team.getTeam());
+                elemTeam.setAttribute("team", team.getNomEquipe());
                 elemTeam.setAttribute("points", team.getPoints());
-                elemTeam.setAttribute("mj", team.getMj());
-                elemTeam.setAttribute("first", team.getFirst());
-                elemTeam.setAttribute("second", team.getSecond());
-                elemTeam.setAttribute("third", team.getThird());
-                elemTeam.setAttribute("forfeit", team.getForfeit());
-                elemTeam.setAttribute("nbPeriodes", team.getNbPeriodes());
-                elemTeam.setAttribute("fairPlay", team.getFairPlay());
+                elemTeam.setAttribute("mj", team.getMatchJoue());
+                elemTeam.setAttribute("first", team.getPremierePlace());
+                elemTeam.setAttribute("second", team.getDeuxiemePlace());
+                elemTeam.setAttribute("third", team.getTroisiemePlace());
+                elemTeam.setAttribute("forfeit", team.getForfait());
+                elemTeam.setAttribute("nbPeriodes", team.getNbPeriode());
+                elemTeam.setAttribute("fairPlay", team.getEspritSportif());
                 rootElement.appendChild(elemTeam);
             }
 
@@ -69,7 +71,7 @@ public class ReadAndPrintXMLFile
     {
 
         Classement classement = new Classement();
-        List<Team> teams = new ArrayList<Team>();
+        List<ClassementEquipe> teams = new ArrayList<ClassementEquipe>();
         try
         {
 
@@ -84,7 +86,7 @@ public class ReadAndPrintXMLFile
             String poule = doc.getDocumentElement().getAttribute("poule");
 
             // System.out.println("Poule : " + poule);
-            classement.setPoule(poule);
+            classement.setDivision(poule);
 
             NodeList listeEquipes = doc.getElementsByTagName("equipe");
 
@@ -111,8 +113,8 @@ public class ReadAndPrintXMLFile
                     String nbPeriodes = namedNodeMap.getNamedItem("nbPeriodes").getNodeValue();
                     String fairPlay = namedNodeMap.getNamedItem("fairPlay").getNodeValue();
 
-                    Team oTeam =
-                        new Team(rank, logo, sTeam, points, mj, first, second, third, forfeit, nbPeriodes, fairPlay);
+                    ClassementEquipe oTeam =
+                        new ClassementEquipe(rank, logo, sTeam, points, mj, first, second, third, forfeit, nbPeriodes, fairPlay);
                     teams.add(oTeam);
 
                     // System.out.println(team.toString());
@@ -136,16 +138,16 @@ public class ReadAndPrintXMLFile
         {
             t.printStackTrace();
         }
-        classement.setTeams(teams);
+        classement.setClassementEquipes(teams);
         return classement;
     }
 
     public static void main(String argv[])
     {
         Classement classement = getClassementFromXML("C:/Users/thierry/Desktop/classement_D1.xml");
-        System.out.println(classement.getPoule());
-        List<Team> teams = classement.getTeams();
-        for(Team team : teams)
+        System.out.println(classement.getDivision());
+        List<ClassementEquipe> teams = classement.getClassementEquipes();
+        for(ClassementEquipe team : teams)
         {
             System.out.println(team.toString());
         }

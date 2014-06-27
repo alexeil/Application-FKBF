@@ -17,38 +17,13 @@
         <property name="date" type="date">
             <column name="date" length="10"/>
         </property>
-        <property name="rang" type="int">
-            <column name="rang"/>
+
+        <property name="html" type="string">
+            <column name="html"/>
         </property>
-        <property name="logo" type="string">
-            <column name="logo" length="10"/>
-        </property>
-        <property name="nomEquipe" type="string">
-            <column name="nom_equipe" length="50"/>
-        </property>
-        <property name="points" type="int">
-            <column name="points"/>
-        </property>
-        <property name="matchJoue" type="int">
-            <column name="match_joue"/>
-        </property>
-        <property name="premierePlace" type="int">
-            <column name="premiere_place"/>
-        </property>
-        <property name="deuxiemePlace" type="int">
-            <column name="deuxieme_place"/>
-        </property>
-        <property name="troisiemePlace" type="int">
-            <column name="troisieme_place"/>
-        </property>
-        <property name="forfait" type="int">
-            <column name="forfait"/>
-        </property>
-        <property name="nbPeriode" type="int">
-            <column name="nb_periode"/>
-        </property>
-        <property name="espritSportif" type="int">
-            <column name="esprit_sportif"/>
-        </property>
+
+        <many-to-one name="classementEquipes" class="main.java.metier.ClassementEquipe"
+                     column="id_equipe" unique="false" not-null="true"
+                     cascade="all"/>
     </class>
 </hibernate-mapping>

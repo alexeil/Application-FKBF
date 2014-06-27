@@ -1,10 +1,5 @@
 package main.java.hibernate;
 
-import main.java.metier.Equipe;
-import main.java.metier.Match;
-import main.java.metier.MatchHtml;
-import org.hibernate.classic.Session;
-
 /**
  * Created by thierry on 24/06/2014.
  */
@@ -12,7 +7,7 @@ public class main
 {
     public static void main(String[] args)
     {
-        System.out.println("Hibernate one to one (XML mapping)");
+      /*  System.out.println("Hibernate one to one (XML mapping)");
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         session.beginTransaction();
@@ -91,6 +86,6 @@ public class main
 
         session.getTransaction().commit();
 
-        System.out.println("Done");
+        System.out.println("Done");*/
     }
 }

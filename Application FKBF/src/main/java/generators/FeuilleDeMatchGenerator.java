@@ -1,10 +1,8 @@
 package main.java.generators;
 
 import main.java.dao.FactoryDAO;
-import main.java.dao.MatchHTMLDAO;
-import main.java.metier.Equipe;
+import main.java.metier.MatchEquipe;
 import main.java.metier.Match;
-import main.java.metier.MatchHtml;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -20,7 +18,7 @@ public class FeuilleDeMatchGenerator
 {
     private final static Logger LOGGER = Logger.getLogger(FeuilleDeMatchGenerator.class.getName());
 
-    private  MatchHtml currentMatchHtml = null;
+    private  Match currentMatch = null;
     public static String RN = "\r\n";
 
     public static String PLUS_SRC = "http://www.kin-ball.fr/images/plus.jpg";
@@ -1190,7 +1188,7 @@ public class FeuilleDeMatchGenerator
             {
                 clearAll();
                 loadIDListe();
-                currentMatchHtml =null;
+                currentMatch =null;
             }
         });
 
@@ -1222,7 +1220,7 @@ public class FeuilleDeMatchGenerator
     }
 
     private void removeMatch(){
-       FactoryDAO.getMatchHtmlDAO().delete(FactoryDAO.getMatchHtmlDAO().findByIdMatch(listID.getSelectedItem().toString()));
+       FactoryDAO.getMatchDAO().delete(FactoryDAO.getMatchDAO().findByIdMatch(listID.getSelectedItem().toString()));
     }
     private void loadIDListe()
     {
@@ -1625,52 +1623,48 @@ public class FeuilleDeMatchGenerator
 
     private void saveDB()
     {
-            MatchHtml matchHtml = null;
             Match match = null;
-            Equipe bleu = null;
-            Equipe gris = null;
-            Equipe noir = null;
+            MatchEquipe bleu = null;
+            MatchEquipe gris = null;
+            MatchEquipe noir = null;
 
-            if (null == currentMatchHtml) {
-                if (!FactoryDAO.getMatchHtmlDAO().isIdMatchAlreadyExists(idMatch.getText())){
-                    bleu =new Equipe();
+            if (null == currentMatch) {
+                if (!FactoryDAO.getMatchDAO().isIdMatchAlreadyExists(idMatch.getText())){
+                    bleu =new MatchEquipe();
                     bleu.setColor("bleu");
 
-                    noir =new Equipe();
+                    noir =new MatchEquipe();
                     noir.setColor("noir");
 
-                    gris =new Equipe();
+                    gris =new MatchEquipe();
                     gris.setColor("gris");
 
                     match = new Match();
-                    matchHtml = new MatchHtml();
 
                     match.setBleu(bleu);
                     match.setGris(gris);
                     match.setNoir(noir);
-                    matchHtml.setMatch(match);
 
-                    fillMatchHtml(matchHtml, match, bleu, gris, noir);
-                    FactoryDAO.getMatchHtmlDAO().saveOrUpdate(matchHtml);
+                    fillMatchHtml( match, bleu, gris, noir);
+                    FactoryDAO.getMatchDAO().saveOrUpdate(match);
                 }
                 else{
                     LOGGER.warn(" Id Match already exists");
                 }
             } else {
-                matchHtml = currentMatchHtml;
+                match = currentMatch;
 
-                match = currentMatchHtml.getMatch();
 
-                bleu = currentMatchHtml.getMatch().getBleu();
-                gris = currentMatchHtml.getMatch().getGris();
-                noir = currentMatchHtml.getMatch().getNoir();
+                bleu = currentMatch.getBleu();
+                gris = currentMatch.getGris();
+                noir = currentMatch.getNoir();
 
-                fillMatchHtml(matchHtml, match, bleu, gris, noir);
-                FactoryDAO.getMatchHtmlDAO().saveOrUpdate(matchHtml);
+                fillMatchHtml( match, bleu, gris, noir);
+                FactoryDAO.getMatchDAO().saveOrUpdate(match);
             }
     }
 
-    private void fillMatchHtml(MatchHtml matchHtml, Match match, Equipe bleu, Equipe gris, Equipe noir) {
+    private void fillMatchHtml( Match match, MatchEquipe bleu, MatchEquipe gris, MatchEquipe noir) {
         // Equipe Bleu
         bleu.setNomEquipe(equipeBleu.getText());
         bleu.setForfait(forfaitBleu.isSelected());
@@ -1753,21 +1747,18 @@ public class FeuilleDeMatchGenerator
         match.setNoir(noir);
         match.setArbitreChef(arbitreChef.getText());
         match.setArbitreAdjoint(arbitreAdjoint.getText());
-
-        //MatchHtml
-        matchHtml.setMatch(match);
-        matchHtml.setHtml(this.createHtml(match).toString());
+        match.setHtml(this.createHtml(match).toString());
     }
 
     private void loadDB()
     {
 
-        currentMatchHtml = FactoryDAO.getMatchHtmlDAO().findByIdMatch(listID.getSelectedItem().toString());
+        currentMatch = FactoryDAO.getMatchDAO().findByIdMatch(listID.getSelectedItem().toString());
 
-        Match match = currentMatchHtml.getMatch();
+        Match match = currentMatch;
         idMatch.setText(match.getIdMatch());
 
-        Equipe bleu = match.getBleu();
+        MatchEquipe bleu = match.getBleu();
         equipeBleu.setText(bleu.getNomEquipe());
         forfaitBleu.setSelected(bleu.isForfait());
         P1B.setText(String.valueOf(bleu.getP1()));
@@ -1789,7 +1780,7 @@ public class FeuilleDeMatchGenerator
         espritSportifBleu.setText(String.valueOf(bleu.getEspritSportif()));
         pointBleu.setText(String.valueOf(bleu.getPoints()));
 
-        Equipe noir = match.getNoir();
+        MatchEquipe noir = match.getNoir();
         equipeNoir.setText(noir.getNomEquipe());
         forfaitNoir.setSelected(bleu.isForfait());
         P1N.setText(String.valueOf(bleu.getP1()));
@@ -1811,7 +1802,7 @@ public class FeuilleDeMatchGenerator
         espritSportifNoir.setText(String.valueOf(bleu.getEspritSportif()));
         pointNoir.setText(String.valueOf(bleu.getPoints()));
 
-        Equipe gris = match.getGris();
+        MatchEquipe gris = match.getGris();
         equipeGris.setText(gris.getNomEquipe());
         forfaitGris.setSelected(bleu.isForfait());
         P1G.setText(String.valueOf(bleu.getP1()));
@@ -1842,9 +1833,9 @@ public class FeuilleDeMatchGenerator
     private StringBuilder createHtml(Match match)
     {
 
-        Equipe bleu = match.getBleu();
-        Equipe gris = match.getGris();
-        Equipe noir = match.getNoir();
+        MatchEquipe bleu = match.getBleu();
+        MatchEquipe gris = match.getGris();
+        MatchEquipe noir = match.getNoir();
 
         StringBuilder html = new StringBuilder();
 
