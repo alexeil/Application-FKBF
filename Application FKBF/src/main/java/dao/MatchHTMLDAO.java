@@ -1,11 +1,14 @@
 package main.java.dao;
 
 import main.java.metier.Match;
+import main.java.metier.MatchHtml;
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
 
 import java.sql.Connection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MatchHTMLDAO
     extends CommonDAO
@@ -24,32 +27,20 @@ public class MatchHTMLDAO
 
     }
 
-    public Match findByIdMatch(String idMatch)
+    public boolean isIdMatchAlreadyExists(String idMatch)
     {
-        //        Query query = session.createSQLQuery(
-        //            "SELECT * from MatchHtml m where m.match.idMatch= :idMatch")
-        //            .addEntity(MatchHtml.class)
-        //            .setParameter("idMatch", idMatch);
-        //
-        //        LOGGER.debug(query.toString());
-        //        LOGGER.debug("idMatch : " + idMatch);
-        //        return (MatchHtml) query.uniqueResult();
-        Query query = session.createSQLQuery(
-            "SELECT * from match m where m.idMatch= :idMatch")
-            .addEntity(Match.class)
+       return (null != this.findByIdMatch(idMatch));
+    }
+
+    public MatchHtml findByIdMatch(String idMatch)
+    {
+         Query query = session.createQuery(
+                "SELECT m from MatchHtml m where m.match.idMatch= :idMatch")
             .setParameter("idMatch", idMatch);
 
         LOGGER.debug(query.toString());
         LOGGER.debug("idMatch : " + idMatch);
-        return (Match) query.uniqueResult();
-
-        //        Query query = session.createSQLQuery(
-        //            "SELECT * from MatchHtml m where id_match= :idMatch")
-        //            .addEntity(MatchHtml.class)
-        //            .setParameter("idMatch", 1);
-        //
-        //        LOGGER.debug(query.toString());
-        //        return (MatchHtml) query.uniqueResult();
+        return (MatchHtml) query.uniqueResult();
     }
     //    public void save(Match match, StringBuilder html)
     //    {

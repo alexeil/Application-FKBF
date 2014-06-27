@@ -1,8 +1,9 @@
 package main.java.dao;
 
-import main.java.metier.old.Equipe;
-import main.java.metier.old.Match;
+import main.java.metier.Equipe;
+import main.java.metier.Match;
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -28,7 +29,7 @@ public class MatchDAO
 
     public void save(Match match, StringBuilder html)
     {
-        Statement stm;
+        /*Statement stm;
         StringBuilder requete = new StringBuilder();
         try
         {
@@ -67,37 +68,21 @@ public class MatchDAO
         {
             LOGGER.debug("Requete SQL : " + requete);
             LOGGER.error("SQLException ", e);
-        }
+        }*/
     }
+
 
     public List<String> getAllID()
     {
         List<String> idsMatch = new ArrayList<String>();
 
-        String requete = "SELECT id_match FROM `match`";
-
-        try
-        {
-            Statement stm = connection.createStatement();
-            ResultSet resultat = stm.executeQuery(requete);
-
-            while(resultat.next())
-            {
-                idsMatch.add(resultat.getString("id_match"));
-            }
-
-            resultat.close();
-            resultat = null;
-            stm.close();
-            stm = null;
-        }
-        catch(SQLException e)
-        {
-            LOGGER.error(requete, e);
-        }
-
-        return idsMatch;
+        Query query = session.createQuery(
+                "SELECT m.idMatch from Match m");
+        return (List<String>) query.list();
     }
+
+
+
 
     public Match getMatchFromID(String id)
     {
@@ -115,9 +100,9 @@ public class MatchDAO
             while(resultat.next())
             {
                 match.setIdMatch(resultat.getString("id_match"));
-                match.setBleu(new EquipeDAO().getEquipeFromId(resultat.getInt("bleu")));
+              /*  match.setBleu(new EquipeDAO().getEquipeFromId(resultat.getInt("bleu")));
                 match.setGris(new EquipeDAO().getEquipeFromId(resultat.getInt("gris")));
-                match.setNoir(new EquipeDAO().getEquipeFromId(resultat.getInt("noir")));
+                match.setNoir(new EquipeDAO().getEquipeFromId(resultat.getInt("noir")));*/
                 match.setArbitreChef(resultat.getString("arbitre_chef"));
                 match.setArbitreAdjoint(resultat.getString("arbitre_adjoint"));
             }

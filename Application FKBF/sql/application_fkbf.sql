@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `classement_html` (
   `html` longtext,
   PRIMARY KEY (`id_classement_html`),
   FOREIGN KEY (id_classement)  REFERENCES classement(id_classement)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1  ;
 
 -- --------------------------------------------------------
 
@@ -76,26 +76,26 @@ CREATE TABLE IF NOT EXISTS `equipe` (
   `color` varchar(10) DEFAULT NULL,
   `nom_equipe` varchar(50) DEFAULT NULL,
   `isForfait` tinyint(1) DEFAULT NULL,
-  `p1` int(11) DEFAULT NULL,
-  `p2` int(11) DEFAULT NULL,
-  `p3` int(11) DEFAULT NULL,
-  `p4` int(11) DEFAULT NULL,
-  `p5` int(11) DEFAULT NULL,
-  `p6` int(11) DEFAULT NULL,
-  `p7` int(11) DEFAULT NULL,
-  `prol1` int(11) DEFAULT NULL,
-  `prol2` int(11) DEFAULT NULL,
-  `prol3` int(11) DEFAULT NULL,
-  `prol4` int(11) DEFAULT NULL,
-  `prol5` int(11) DEFAULT NULL,
-  `prol6` int(11) DEFAULT NULL,
-  `prol7` int(11) DEFAULT NULL,
-  `prol_deuxieme` int(11) DEFAULT NULL,
-  `nb_periode` int(11) DEFAULT NULL,
-  `esprit_sportif` int(11) DEFAULT NULL,
-  `points` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_equipe
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+  `p1` varchar(11) DEFAULT NULL,
+  `p2` varchar(11) DEFAULT NULL,
+  `p3` varchar(11) DEFAULT NULL,
+  `p4` varchar(11) DEFAULT NULL,
+  `p5` varchar(11) DEFAULT NULL,
+  `p6` varchar(11) DEFAULT NULL,
+  `p7` varchar(11) DEFAULT NULL,
+  `prol1` varchar(11) DEFAULT NULL,
+  `prol2` varchar(11) DEFAULT NULL,
+  `prol3` varchar(11) DEFAULT NULL,
+  `prol4` varchar(11) DEFAULT NULL,
+  `prol5` varchar(11) DEFAULT NULL,
+  `prol6` varchar(11) DEFAULT NULL,
+  `prol7` varchar(11) DEFAULT NULL,
+  `prol_deuxieme` varchar(11) DEFAULT NULL,
+  `nb_periode` varchar(11) DEFAULT NULL,
+  `esprit_sportif` varchar(11) DEFAULT NULL,
+  `points` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`id_equipe`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ;
 
 -- --------------------------------------------------------
 
@@ -113,10 +113,10 @@ CREATE TABLE IF NOT EXISTS `match` (
   `arbitre_chef` varchar(50) DEFAULT NULL,
   `arbitre_adjoint` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (bleu)  REFERENCES equipe(id_classement),
-  FOREIGN KEY (gris)  REFERENCES equipe(id_classement),
-  FOREIGN KEY (noir)  REFERENCES equipe(id_classement)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  FOREIGN KEY (bleu)  REFERENCES equipe(id_equipe),
+  FOREIGN KEY (gris)  REFERENCES equipe(id_equipe),
+  FOREIGN KEY (noir)  REFERENCES equipe(id_equipe)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1  ;
 
 -- --------------------------------------------------------
 
@@ -129,9 +129,9 @@ CREATE TABLE IF NOT EXISTS `match_html` (
   `id_match` int(11) NOT NULL AUTO_INCREMENT,
   `identifiant_match` varchar(10) DEFAULT NULL,
   `html` longtext,
-  PRIMARY KEY (`id_match`),
-  FOREIGN KEY (identifiant_match)  REFERENCES `match`(id_match)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT AUTO_INCREMENT=2 ;
+  PRIMARY KEY (`id_match`)
+  --FOREIGN KEY (identifiant_match)  REFERENCES `match`(id_match)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1  ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

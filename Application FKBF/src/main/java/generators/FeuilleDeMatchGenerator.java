@@ -20,6 +20,7 @@ public class FeuilleDeMatchGenerator
 {
     private final static Logger LOGGER = Logger.getLogger(FeuilleDeMatchGenerator.class.getName());
 
+    private  MatchHtml currentMatchHtml = null;
     public static String RN = "\r\n";
 
     public static String PLUS_SRC = "http://www.kin-ball.fr/images/plus.jpg";
@@ -124,6 +125,7 @@ public class FeuilleDeMatchGenerator
     private JTextField textField_3;
     private JTextField textField_4;
     private JButton clearAll;
+    private JButton remove;
     private JLabel lblForfait;
     private JCheckBox forfaitBleu;
     private JCheckBox forfaitGris;
@@ -1130,6 +1132,7 @@ public class FeuilleDeMatchGenerator
         gbc_listID.gridx = 13;
         gbc_listID.gridy = 11;
         getContentPane().add(listID, gbc_listID);
+
         GridBagConstraints gbc_btnSaveDb = new GridBagConstraints();
         gbc_btnSaveDb.anchor = GridBagConstraints.WEST;
         gbc_btnSaveDb.gridwidth = 6;
@@ -1155,6 +1158,15 @@ public class FeuilleDeMatchGenerator
         getContentPane().add(clearAll, gbc_clearAll);
         this.setVisible(true);
 
+        remove = new JButton("Remove DB");
+        GridBagConstraints gbc_remove = new GridBagConstraints();
+        gbc_remove.gridwidth = 5;
+        gbc_remove.insets = new Insets(0, 0, 0, 5);
+        gbc_remove.gridx = 15;
+        gbc_remove.gridy = 13;
+        getContentPane().add(remove, gbc_remove);
+        this.setVisible(true);
+
         btnNewButton.addActionListener(new ActionListener()
         {
             @Override
@@ -1177,17 +1189,27 @@ public class FeuilleDeMatchGenerator
             public void actionPerformed(ActionEvent arg0)
             {
                 clearAll();
+                loadIDListe();
+                currentMatchHtml =null;
+            }
+        });
+
+        remove.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent arg0)
+            {
+                removeMatch();
             }
         });
 
         try
         {
-            FactoryDAO.getClassementDAO();
             loadIDListe();
         }
         catch(Exception e)
         {
-            LOGGER.error("Pas de connection");
+            LOGGER.error("LoadidList Exception",e);
         }
 
         // listeTxtFields =
@@ -1199,8 +1221,13 @@ public class FeuilleDeMatchGenerator
         new FeuilleDeMatchGenerator();
     }
 
+    private void removeMatch(){
+       FactoryDAO.getMatchHtmlDAO().delete(FactoryDAO.getMatchHtmlDAO().findByIdMatch(listID.getSelectedItem().toString()));
+    }
     private void loadIDListe()
     {
+        listID.removeAllItems();
+
         for(String id : FactoryDAO.getMatchDAO().getAllID())
         {
             listID.addItem(id);
@@ -1598,42 +1625,146 @@ public class FeuilleDeMatchGenerator
 
     private void saveDB()
     {
+            MatchHtml matchHtml = null;
+            Match match = null;
+            Equipe bleu = null;
+            Equipe gris = null;
+            Equipe noir = null;
 
-        Equipe bleu =
-            new Equipe("bleu", equipeBleu.getText(), forfaitBleu.isSelected(), P1B.getText(), P2B.getText(),
-                P3B.getText(), P4B.getText(), P5B.getText(), P6B.getText(), P7B.getText(), prol1B.getText(),
-                prol2B.getText(), prol3B.getText(), prol4B.getText(), prol5B.getText(), prol6B.getText(),
-                prol7B.getText(), prol22B.getText(), periodeGagneeBleu.getText(), espritSportifBleu.getText(),
-                pointBleu.getText());
+            if (null == currentMatchHtml) {
+                if (!FactoryDAO.getMatchHtmlDAO().isIdMatchAlreadyExists(idMatch.getText())){
+                    bleu =new Equipe();
+                    bleu.setColor("bleu");
 
-        Equipe noir =
-            new Equipe("noir", equipeNoir.getText(), forfaitNoir.isSelected(), P1N.getText(), P2N.getText(),
-                P3N.getText(), P4N.getText(), P5N.getText(), P6N.getText(), P7N.getText(), prol1N.getText(),
-                prol2N.getText(), prol3N.getText(), prol4N.getText(), prol5N.getText(), prol6N.getText(),
-                prol7N.getText(), prol22N.getText(), periodeGagneeNoir.getText(), espritSportifNoir.getText(),
-                pointNoir.getText());
+                    noir =new Equipe();
+                    noir.setColor("noir");
 
-        Equipe gris =
-            new Equipe("gris", equipeGris.getText(), forfaitGris.isSelected(), P1G.getText(), P2G.getText(),
-                P3G.getText(), P4G.getText(), P5G.getText(), P6G.getText(), P7G.getText(), prol1G.getText(),
-                prol2G.getText(), prol3G.getText(), prol4G.getText(), prol5G.getText(), prol6G.getText(),
-                prol7G.getText(), prol22G.getText(), periodeGagneeGris.getText(), espritSportifGris.getText(),
-                pointGris.getText());
+                    gris =new Equipe();
+                    gris.setColor("gris");
 
-        Match match = new Match(idMatch.getText(), bleu, gris, noir, arbitreChef.getText(), arbitreAdjoint.getText());
+                    match = new Match();
+                    matchHtml = new MatchHtml();
 
-        MatchHtml matchHtml = new MatchHtml(match, this.createHtml(match).toString());
+                    match.setBleu(bleu);
+                    match.setGris(gris);
+                    match.setNoir(noir);
+                    matchHtml.setMatch(match);
 
-        FactoryDAO.getMatchHtmlDAO().save(matchHtml);
+                    fillMatchHtml(matchHtml, match, bleu, gris, noir);
+                    FactoryDAO.getMatchHtmlDAO().saveOrUpdate(matchHtml);
+                }
+                else{
+                    LOGGER.warn(" Id Match already exists");
+                }
+            } else {
+                matchHtml = currentMatchHtml;
+
+                match = currentMatchHtml.getMatch();
+
+                bleu = currentMatchHtml.getMatch().getBleu();
+                gris = currentMatchHtml.getMatch().getGris();
+                noir = currentMatchHtml.getMatch().getNoir();
+
+                fillMatchHtml(matchHtml, match, bleu, gris, noir);
+                FactoryDAO.getMatchHtmlDAO().saveOrUpdate(matchHtml);
+            }
+    }
+
+    private void fillMatchHtml(MatchHtml matchHtml, Match match, Equipe bleu, Equipe gris, Equipe noir) {
+        // Equipe Bleu
+        bleu.setNomEquipe(equipeBleu.getText());
+        bleu.setForfait(forfaitBleu.isSelected());
+
+        bleu.setP1(P1B.getText());
+        bleu.setP2(P2B.getText());
+        bleu.setP3(P3B.getText());
+        bleu.setP4(P4B.getText());
+        bleu.setP5(P5B.getText());
+        bleu.setP6(P6B.getText());
+        bleu.setP7(P7B.getText());
+
+        bleu.setProl1(prol1B.getText());
+        bleu.setProl2(prol2B.getText());
+        bleu.setProl3(prol3B.getText());
+        bleu.setProl4(prol4B.getText());
+        bleu.setProl5(prol5B.getText());
+        bleu.setProl6(prol6B.getText());
+        bleu.setProl7(prol7B.getText());
+
+        bleu.setProlDeuxieme(prol22B.getText());
+        bleu.setNbPeriode(periodeGagneeBleu.getText());
+        bleu.setEspritSportif(espritSportifBleu.getText());
+        bleu.setPoints(pointBleu.getText());
+
+// Equipe Noir
+        noir.setNomEquipe(equipeNoir.getText());
+        noir.setForfait(forfaitNoir.isSelected());
+
+        noir.setP1(P1N.getText());
+        noir.setP2(P2N.getText());
+        noir.setP3(P3N.getText());
+        noir.setP4(P4N.getText());
+        noir.setP5(P5N.getText());
+        noir.setP6(P6N.getText());
+        noir.setP7(P7N.getText());
+
+        noir.setProl1(prol1N.getText());
+        noir.setProl2(prol2N.getText());
+        noir.setProl3(prol3N.getText());
+        noir.setProl4(prol4N.getText());
+        noir.setProl5(prol5N.getText());
+        noir.setProl6(prol6N.getText());
+        noir.setProl7(prol7N.getText());
+
+        noir.setProlDeuxieme(prol22N.getText());
+        noir.setNbPeriode(periodeGagneeNoir.getText());
+        noir.setEspritSportif(espritSportifNoir.getText());
+        noir.setPoints(pointNoir.getText());
+
+// Equipe Gris
+        gris.setNomEquipe(equipeGris.getText());
+        gris.setForfait(forfaitGris.isSelected());
+
+        gris.setP1(P1G.getText());
+        gris.setP2(P2G.getText());
+        gris.setP3(P3G.getText());
+        gris.setP4(P4G.getText());
+        gris.setP5(P5G.getText());
+        gris.setP6(P6G.getText());
+        gris.setP7(P7G.getText());
+
+        gris.setProl1(prol1G.getText());
+        gris.setProl2(prol2G.getText());
+        gris.setProl3(prol3G.getText());
+        gris.setProl4(prol4G.getText());
+        gris.setProl5(prol5G.getText());
+        gris.setProl6(prol6G.getText());
+        gris.setProl7(prol7G.getText());
+
+        gris.setProlDeuxieme(prol22G.getText());
+        gris.setNbPeriode(periodeGagneeGris.getText());
+        gris.setEspritSportif(espritSportifGris.getText());
+        gris.setPoints(pointGris.getText());
+
+        //init du match
+        match.setIdMatch(idMatch.getText());
+        match.setBleu(bleu);
+        match.setGris(gris);
+        match.setNoir(noir);
+        match.setArbitreChef(arbitreChef.getText());
+        match.setArbitreAdjoint(arbitreAdjoint.getText());
+
+        //MatchHtml
+        matchHtml.setMatch(match);
+        matchHtml.setHtml(this.createHtml(match).toString());
     }
 
     private void loadDB()
     {
 
-        Match matchHtml = new MatchHTMLDAO().findByIdMatch(listID.getSelectedItem().toString());
-        //        Match match = FactoryDAO.getMatchDAO().getMatchFromID(listID.getSelectedItem().toString());
+        currentMatchHtml = FactoryDAO.getMatchHtmlDAO().findByIdMatch(listID.getSelectedItem().toString());
 
-        Match match = new Match();
+        Match match = currentMatchHtml.getMatch();
         idMatch.setText(match.getIdMatch());
 
         Equipe bleu = match.getBleu();

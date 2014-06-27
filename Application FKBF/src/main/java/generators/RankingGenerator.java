@@ -1,7 +1,9 @@
 package main.java.generators;
 
 import main.java.classement.*;
+import main.java.classement.Classement;
 import main.java.dao.FactoryDAO;
+import main.java.metier.*;
 import main.java.metier.old.DivisionListeElement;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
@@ -238,12 +240,11 @@ public class RankingGenerator
 
         try
         {
-            FactoryDAO.getClassementDAO();
             loadDivisionListe();
         }
         catch(Exception e)
         {
-            LOGGER.error("Pas de connection");
+            LOGGER.error(e);
         }
 
         pack();
@@ -320,9 +321,18 @@ public class RankingGenerator
     public void saveTableDB()
     {
         modele.orderTeams();
+
+
         Classement classement =
             new Classement(division.getText(), modele.getTeams(), getDateLong(), isHomme.isSelected());
-        FactoryDAO.getClassementDAO().deleteClassement(classement);
+
+        ClassementHtml classementHtml = new ClassementHtml();
+        main.java.metier.Classement classementMetier = new main.java.metier.Classement();
+
+       /* classementHtml.setClassement(Classement);
+        classementHtml.setHtml(createHtml(classement).toString());
+
+        FactoryDAO.getClassementDAO().saveOrUpdate(classementHtml);*/
         FactoryDAO.getClassementDAO().insertClassement(classement);
         FactoryDAO.getClassementHtmlDAO().deleteClassementHtml(classement);
         FactoryDAO.getClassementHtmlDAO().insertClassement(classement, createHtml(classement));

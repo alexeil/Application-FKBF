@@ -13,31 +13,31 @@ public class Equipe
     private String color;
     private String nomEquipe;
     private boolean isForfait;
-    private int p1;
-    private int p2;
-    private int p3;
-    private int p4;
-    private int p5;
-    private int p6;
-    private int p7;
-    private int prol1;
-    private int prol2;
-    private int prol3;
-    private int prol4;
-    private int prol5;
-    private int prol6;
-    private int prol7;
-    private int prolDeuxieme;
-    private int nbPeriode;
-    private int espritSportif;
-    private int points;
+    private String p1;
+    private String p2;
+    private String p3;
+    private String p4;
+    private String p5;
+    private String p6;
+    private String p7;
+    private String prol1;
+    private String prol2;
+    private String prol3;
+    private String prol4;
+    private String prol5;
+    private String prol6;
+    private String prol7;
+    private String prolDeuxieme;
+    private String nbPeriode;
+    private String espritSportif;
+    private String points;
     private Match match;
 
     public Equipe()
     {
     }
 
-    public Equipe(String color, String nomEquipe, boolean isForfait, int p1,
+    /*public Equipe(String color, String nomEquipe, boolean isForfait, int p1,
                   int p2, int p3, int p4, int p5, int p6, int p7, int prol1,
                   int prol2, int prol3, int prol4, int prol5, int prol6, int prol7,
                   int prolDeuxieme, int nbPeriode, int espritSportif, int points)
@@ -222,7 +222,7 @@ public class Equipe
         {
             this.points = Integer.parseInt(points);
         }
-    }
+    }*/
 
     public Integer getIdEquipe()
     {
@@ -264,182 +264,182 @@ public class Equipe
         this.isForfait = isForfait;
     }
 
-    public int getP1()
+    public String getP1()
     {
         return this.p1;
     }
 
-    public void setP1(int p1)
+    public void setP1(String p1)
     {
         this.p1 = p1;
     }
 
-    public int getP2()
+    public String getP2()
     {
         return this.p2;
     }
 
-    public void setP2(int p2)
+    public void setP2(String p2)
     {
         this.p2 = p2;
     }
 
-    public int getP3()
+    public String getP3()
     {
         return this.p3;
     }
 
-    public void setP3(int p3)
+    public void setP3(String p3)
     {
         this.p3 = p3;
     }
 
-    public int getP4()
+    public String getP4()
     {
         return this.p4;
     }
 
-    public void setP4(int p4)
+    public void setP4(String p4)
     {
         this.p4 = p4;
     }
 
-    public int getP5()
+    public String getP5()
     {
         return this.p5;
     }
 
-    public void setP5(int p5)
+    public void setP5(String p5)
     {
         this.p5 = p5;
     }
 
-    public int getP6()
+    public String getP6()
     {
         return this.p6;
     }
 
-    public void setP6(int p6)
+    public void setP6(String p6)
     {
         this.p6 = p6;
     }
 
-    public int getP7()
+    public String getP7()
     {
         return this.p7;
     }
 
-    public void setP7(int p7)
+    public void setP7(String p7)
     {
         this.p7 = p7;
     }
 
-    public int getProl1()
+    public String getProl1()
     {
         return this.prol1;
     }
 
-    public void setProl1(int prol1)
+    public void setProl1(String prol1)
     {
         this.prol1 = prol1;
     }
 
-    public int getProl2()
+    public String getProl2()
     {
         return this.prol2;
     }
 
-    public void setProl2(int prol2)
+    public void setProl2(String prol2)
     {
         this.prol2 = prol2;
     }
 
-    public int getProl3()
+    public String getProl3()
     {
         return this.prol3;
     }
 
-    public void setProl3(int prol3)
+    public void setProl3(String prol3)
     {
         this.prol3 = prol3;
     }
 
-    public int getProl4()
+    public String getProl4()
     {
         return this.prol4;
     }
 
-    public void setProl4(int prol4)
+    public void setProl4(String prol4)
     {
         this.prol4 = prol4;
     }
 
-    public int getProl5()
+    public String getProl5()
     {
         return this.prol5;
     }
 
-    public void setProl5(int prol5)
+    public void setProl5(String prol5)
     {
         this.prol5 = prol5;
     }
 
-    public int getProl6()
+    public String getProl6()
     {
         return this.prol6;
     }
 
-    public void setProl6(int prol6)
+    public void setProl6(String prol6)
     {
         this.prol6 = prol6;
     }
 
-    public int getProl7()
+    public String getProl7()
     {
         return this.prol7;
     }
 
-    public void setProl7(int prol7)
+    public void setProl7(String prol7)
     {
         this.prol7 = prol7;
     }
 
-    public int getProlDeuxieme()
+    public String getProlDeuxieme()
     {
         return this.prolDeuxieme;
     }
 
-    public void setProlDeuxieme(int prolDeuxieme)
+    public void setProlDeuxieme(String prolDeuxieme)
     {
         this.prolDeuxieme = prolDeuxieme;
     }
 
-    public int getNbPeriode()
+    public String getNbPeriode()
     {
         return this.nbPeriode;
     }
 
-    public void setNbPeriode(int nbPeriode)
+    public void setNbPeriode(String nbPeriode)
     {
         this.nbPeriode = nbPeriode;
     }
 
-    public int getEspritSportif()
+    public String getEspritSportif()
     {
         return this.espritSportif;
     }
 
-    public void setEspritSportif(int espritSportif)
+    public void setEspritSportif(String espritSportif)
     {
         this.espritSportif = espritSportif;
     }
 
-    public int getPoints()
+    public String getPoints()
     {
         return this.points;
     }
 
-    public void setPoints(int points)
+    public void setPoints(String points)
     {
         this.points = points;
     }

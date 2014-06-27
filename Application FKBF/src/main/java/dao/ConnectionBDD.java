@@ -16,8 +16,9 @@ public class ConnectionBDD
     public static String user = "root";// utilisateur de la bdd
     public static String url = "jdbc:mysql://127.0.0.1:";// url de la bdd
     public static String bdd = "/application_fkbf";
-    public static String port = "3306";
+    public static String port = "3307";
     public static String driver = "com.mysql.jdbc.Driver";
+    public static String  password ="";
     public static Connection connection;// connexion a la bdd
 
     /**
@@ -43,7 +44,8 @@ public class ConnectionBDD
 
         try
         {
-            connection = DriverManager.getConnection(url + port + bdd, user, "");
+            connection = DriverManager.getConnection(url + port + bdd, user,password);
+            LOGGER.debug(" URL " + url + port + bdd + " USER " + user + " PASSWORD " + password);
         }
         catch(Exception e)
         {
