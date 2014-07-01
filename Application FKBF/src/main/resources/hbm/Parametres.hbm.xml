@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 24 juin 2014 21:13:40 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="main.java.metier.Parametres" table="parametres" catalog="application_fkbf">
+        <id name="idParametres" type="java.lang.Integer" column="id_parametres">
+            <generator class="identity"/>
+        </id>
+        <property name="libelle" type="string">
+            <column name="libelle" length="50"/>
+        </property>
+
+        <property name="value" type="string">
+            <column name="value" length="100"/>
+        </property>
+
+    </class>
+</hibernate-mapping>

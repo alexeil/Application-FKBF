@@ -1,19 +1,14 @@
 package main.java.dao;
 
-import main.java.metier.old.Equipe;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 
-public class EquipeDAO
+public class MatchEquipeDAO
     extends CommonDAO
 {
 
-    private final static Logger LOGGER = Logger.getLogger(EquipeDAO.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(MatchEquipeDAO.class.getName());
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
 

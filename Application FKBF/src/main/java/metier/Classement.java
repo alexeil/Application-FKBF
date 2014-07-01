@@ -80,4 +80,9 @@ public class Classement
     public void setHtml(String html) {
         this.html = html;
     }
+
+    @Override
+    public String toString() {
+        return  division + " - "   + sexe  ;
+    }
 }

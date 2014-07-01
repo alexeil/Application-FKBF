@@ -44,7 +44,9 @@ public class RankingGenerator
     private static JTextArea textAreaErrors;
     private JTable tableau;
     private JCheckBox isHomme;
-    private JComboBox<DivisionListeElement> divisionListe;
+    private JComboBox<String> divisionListe;
+
+    Classement currentClassement;
 
     private JDatePickerImpl dateJournee;
 
@@ -184,7 +186,7 @@ public class RankingGenerator
         gbc_isHomme.gridy = 2;
         boutons.add(isHomme, gbc_isHomme);
 
-        divisionListe = new JComboBox<DivisionListeElement>();
+        divisionListe = new JComboBox<String>();
         GridBagConstraints gbc_divisionListe = new GridBagConstraints();
         gbc_divisionListe.insets = new Insets(0, 0, 5, 0);
         gbc_divisionListe.fill = GridBagConstraints.HORIZONTAL;
@@ -294,61 +296,51 @@ public class RankingGenerator
 
     private void loadDivisionListe()
     {
-      /*  for(DivisionListeElement divisionListeElement : FactoryDAO.getClassementDAO().getAllDivision())
+        List<String> divisions = FactoryDAO.getParametresDAO().findAllDivisions();
+
+        for(String division : divisions)
         {
-            divisionListe.addItem(divisionListeElement);
-        }*/
+            divisionListe.addItem(division);
+        }
     }
 
     public void reloadTableDB()
     {
         clearTable();
+        currentClassement = FactoryDAO.getClassementDAO().findClassementByDivisionDateSexe(divisionListe.getSelectedItem().toString(), getDate(), isHomme.isSelected() ? "M" : "F");
 
-        //FIXME
-       /* Classement classement =
-            FactoryDAO.getClassementDAO().selectAllClassement(getDateLong(), isHomme.isSelected() ? "M" : "F",
-                ((DivisionListeElement) divisionListe.getSelectedItem()).getDivision());
+        if (null != currentClassement) {
 
-        ArrayList<ClassementEquipe> teams = new ArrayList<ClassementEquipe>();
-        teams = (ArrayList<ClassementEquipe>) classement.getClassementEquipes();
+            for (ClassementEquipe team : currentClassement.getClassementEquipes()) {
+                modele.addTeam(team);
+            }
 
-        for(ClassementEquipe team : teams)
-        {
-            modele.addTeam(team);
+            textAreaErrors.setText("");
+        }else{
+            textAreaErrors.setText("Aucun classement n'a été trouvé pour ces critères \n : Division " + divisionListe.getSelectedItem().toString() + " \n" + " Date " + getDate() + " \n" + " Sexe " + (isHomme.isSelected() ? "M" : "F") + "\n");
         }
-
-        textAreaErrors.setText("");*/
     }
 
     public void saveTableDB()
     {
         modele.orderTeams();
 
+        Classement classement = currentClassement;
 
-        Classement classement = new Classement();
-        classement.setClassementEquipes(modele.getTeams());
-        classement.setDivision(division.getText());
-        classement.setDate( getDate());
-        classement.setSexe((isHomme.isSelected()? "M" : "F"));
-
-        classement.setHtml(createHtml(classement).toString());
+        if (null == classement) {
+            classement = new Classement();
+            classement.setClassementEquipes(modele.getTeams());
+            classement.setDivision(divisionListe.getSelectedItem().toString());
+            classement.setDate(getDate());
+            classement.setSexe((isHomme.isSelected() ? "M" : "F"));
+            classement.setHtml(createHtml(classement).toString());
+        }
 
         FactoryDAO.getClassementDAO().saveOrUpdate(classement);
-       /* Classement classementHtml = new Classement();
-        ClassementEquipe classementMetier = new ClassementEquipe(rank, logo, sTeam, points, mj, first, second, third, forfeit, nbPeriodes, fairPlay);
-
-       /* classementHtml.setClassement(Classement);
-        classementHtml.setHtml(createHtml(classement).toString());
-
-        FactoryDAO.getClassementDAO().saveOrUpdate(classementHtml);*/
-      /*  FactoryDAO.getClassementDAO().insertClassement(classement);
-        FactoryDAO.getClassementHtmlDAO().deleteClassementHtml(classement);
-        FactoryDAO.getClassementHtmlDAO().insertClassement(classement, createHtml(classement));*/
     }
 
     private String getDateString()
     {
-
         return (dateJournee.getModel().getYear() + "-" + (dateJournee.getModel().getMonth() + 1) + "-" + dateJournee
             .getModel().getDay());
     }
@@ -402,24 +394,24 @@ public class RankingGenerator
         for(ClassementEquipe team : teams)
         {
 
-            first = Integer.parseInt(team.getPremierePlace().replace("", "0"));
-            second = Integer.parseInt(team.getDeuxiemePlace().replace("", "0"));
-            third = Integer.parseInt(team.getTroisiemePlace().replace("", "0"));
-            forfeit = Integer.parseInt(team.getForfait().replace("", "0"));
-            nbPeriode = Integer.parseInt(team.getNbPeriode().replace("", "0"));
-            espritSportif = Integer.parseInt(team.getEspritSportif().replace("", "0"));
+            first = Integer.parseInt("".equals(team.getPremierePlace()) ? "0" : team.getPremierePlace());
+            second = Integer.parseInt("".equals(team.getDeuxiemePlace()) ? "0" : team.getDeuxiemePlace());
+            third = Integer.parseInt("".equals(team.getTroisiemePlace()) ? "0" : team.getTroisiemePlace());
+            forfeit = Integer.parseInt("".equals(team.getForfait()) ? "0" : team.getForfait());
+            nbPeriode = Integer.parseInt("".equals(team.getNbPeriode()) ? "0" : team.getNbPeriode());
+            espritSportif = Integer.parseInt("".equals(team.getEspritSportif()) ? "0" : team.getEspritSportif());
 
             sumPoints = first * FIRST + second * SECOND + third * THIRD + forfeit * FORFEIT + nbPeriode + espritSportif;
 
             sumMatchs = first + second + third + forfeit;
 
-            if(sumPoints != Integer.parseInt(team.getPoints().replace("-", "0")))
+            if(sumPoints != Integer.parseInt("".equals(team.getPoints()) ? "0" : team.getPoints()))
             {
                 errors.append(team.getNomEquipe() + " : " + team.getPoints() + " different de " + sumPoints + RN);
                 error = true;
             }
 
-            if(sumMatchs != Integer.parseInt(team.getMatchJoue().replace("-", "0")))
+            if(sumMatchs != Integer.parseInt("".equals(team.getMatchJoue()) ? "0" : team.getMatchJoue()))
             {
                 errors.append(team.getNomEquipe() + " : " + team.getMatchJoue() + " different de " + sumMatchs + RN);
                 error = true;
@@ -580,6 +572,8 @@ public class RankingGenerator
             for(int i = modelIndexes.length - 1; i >= 0; i--)
             {
                 modele.removeTeam(modelIndexes[i]);
+                currentClassement.getClassementEquipes().remove(modelIndexes[i]);
+
             }
         }
     }

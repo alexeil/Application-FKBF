@@ -4,11 +4,11 @@
 <!-- Generated 24 juin 2014 21:13:40 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="main.java.metier.ClassementEquipe" table="classement_equipe" catalog="application_fkbf">
-        <id name="idClassement" type="java.lang.Integer">
-            <column name="id_classement"/>
+        <id name="idClassement" type="java.lang.Integer" column="id_equipe">
             <generator class="identity"/>
         </id>
-        <property name="rang" type="int">
+
+        <property name="rang" type="string">
             <column name="rang"/>
         </property>
         <property name="logo" type="string">
@@ -17,29 +17,34 @@
         <property name="nomEquipe" type="string">
             <column name="nom_equipe" length="50"/>
         </property>
-        <property name="points" type="int">
+        <property name="points" type="string">
             <column name="points"/>
         </property>
-        <property name="matchJoue" type="int">
+        <property name="matchJoue" type="string">
             <column name="match_joue"/>
         </property>
-        <property name="premierePlace" type="int">
+        <property name="premierePlace" type="string">
             <column name="premiere_place"/>
         </property>
-        <property name="deuxiemePlace" type="int">
+        <property name="deuxiemePlace" type="string">
             <column name="deuxieme_place"/>
         </property>
-        <property name="troisiemePlace" type="int">
+        <property name="troisiemePlace" type="string">
             <column name="troisieme_place"/>
         </property>
-        <property name="forfait" type="int">
+        <property name="forfait" type="string">
             <column name="forfait"/>
         </property>
-        <property name="nbPeriode" type="int">
+        <property name="nbPeriode" type="string">
             <column name="nb_periode"/>
         </property>
-        <property name="espritSportif" type="int">
+        <property name="espritSportif" type="string">
             <column name="esprit_sportif"/>
         </property>
+
+        <many-to-one name="classement" class="main.java.metier.Classement" fetch="select">
+            <column name="id_classement"  />
+        </many-to-one>
+
     </class>
 </hibernate-mapping>

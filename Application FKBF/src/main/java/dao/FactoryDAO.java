@@ -9,7 +9,7 @@ public class FactoryDAO
     private static ClassementDAO classementDAO = null;//
     private static ClassementEquipeDAO classementHtmlDAO = null;
     private static MatchDAO matchDAO = null;
-
+    private static ParametresDAO parametresDAO = null;
     /**
      * Retourne l'objet ClassementDAO.
      *
@@ -45,5 +45,14 @@ public class FactoryDAO
             matchDAO = new MatchDAO();
         }
         return matchDAO;
+    }
+
+    public static ParametresDAO getParametresDAO()
+    {
+        if(parametresDAO == null)
+        {
+            parametresDAO = new ParametresDAO();
+        }
+        return parametresDAO;
     }
 }

@@ -1,8 +1,11 @@
 package main.java.dao;
 
+import main.java.metier.Classement;
+import main.java.metier.Parametres;
 import main.java.metier.old.DivisionListeElement;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Query;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -10,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +24,15 @@ public class ClassementDAO  extends CommonDAO
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
+    public Classement findClassementByDivisionDateSexe(String division, Date date, String sexe) {
+
+        Query query = session.createQuery(
+                "SELECT c FROM "+ Classement.class.getName() + " c WHERE c.division = :division AND c.date = :date AND c.sexe = :sexe ")
+                .setParameter("division", "D1")
+                .setParameter("date", date)
+                .setParameter("sexe", "F");
+        return  (Classement)query.uniqueResult();
+    }
 
 
     /**

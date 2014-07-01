@@ -22,7 +22,6 @@ public class ClassementEquipe
     private String forfait;
     private String nbPeriode;
     private String espritSportif;
-    private String html;
     private Classement classement;
 
     public ClassementEquipe(String rang, String logo, String nomEquipe, String points, String matchJoue, String premierePlace, String deuxiemePlace, String troisiemePlace, String forfait, String nbPeriode, String espritSportif) {
@@ -38,14 +37,17 @@ public class ClassementEquipe
         this.nbPeriode = nbPeriode;
         this.espritSportif = espritSportif;
     }
+    public ClassementEquipe(){
+
+    }
 
     public Integer getIdClassement() {
         return idClassement;
     }
 
-    public void setIdClassement(Integer idClassement) {
-        this.idClassement = idClassement;
-    }
+        public void setIdClassement(Integer idClassement) {
+            this.idClassement = idClassement;
+        }
 
     public String getRang() {
         return rang;
@@ -88,7 +90,8 @@ public class ClassementEquipe
     }
 
     public String getPremierePlace() {
-        return premierePlace;
+    return premierePlace;
+
     }
 
     public void setPremierePlace(String premierePlace) {
@@ -133,14 +136,6 @@ public class ClassementEquipe
 
     public void setEspritSportif(String espritSportif) {
         this.espritSportif = espritSportif;
-    }
-
-    public String getHtml() {
-        return html;
-    }
-
-    public void setHtml(String html) {
-        this.html = html;
     }
 
     public Classement getClassement() {

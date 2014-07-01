@@ -4,14 +4,13 @@
 <!-- Generated 24 juin 2014 21:13:40 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="main.java.metier.Classement" table="classement" catalog="application_fkbf">
-        <id name="idClassement" type="java.lang.Integer">
-            <column name="id_classement"/>
+        <id name="idClassement" type="java.lang.Integer" column="id_classement">
             <generator class="identity"/>
         </id>
         <property name="division" type="string">
             <column name="division" length="10"/>
         </property>
-        <property name="sexe" type="char">
+        <property name="sexe" type="string">
             <column name="sexe" length="1"/>
         </property>
         <property name="date" type="date">
@@ -22,8 +21,14 @@
             <column name="html"/>
         </property>
 
-        <many-to-one name="classementEquipes" class="main.java.metier.ClassementEquipe"
-                     column="id_equipe" unique="false" not-null="true"
-                     cascade="all"/>
-    </class>
-</hibernate-mapping>
+        <!--   <many-to-one name="classementEquipes" class="main.java.metier.ClassementEquipe"
+                         column="id_equipe" unique="true" not-null="true"
+                         cascade="all"/>  inverse="true" lazy="true" fetch="select"-->
+           <list name="classementEquipes" cascade="all-delete-orphan" table="classement_equipe"
+                 inverse="false" >
+               <key column="id_classement"/>
+               <list-index column="idx"/>
+               <one-to-many class="main.java.metier.ClassementEquipe"/>
+           </list>
+        </class>
+    </hibernate-mapping>
