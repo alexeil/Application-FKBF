@@ -24,7 +24,7 @@
         <!--   <many-to-one name="classementEquipes" class="main.java.metier.ClassementEquipe"
                          column="id_equipe" unique="true" not-null="true"
                          cascade="all"/>  inverse="true" lazy="true" fetch="select"-->
-           <list name="classementEquipes" cascade="all-delete-orphan" table="classement_equipe"
+           <list name="classementEquipes" cascade="all" table="classement_equipe"
                  inverse="false" >
                <key column="id_classement"/>
                <list-index column="idx"/>

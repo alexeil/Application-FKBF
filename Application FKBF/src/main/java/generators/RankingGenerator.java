@@ -329,13 +329,13 @@ public class RankingGenerator
 
         if (null == classement) {
             classement = new Classement();
-            classement.setClassementEquipes(modele.getTeams());
-            classement.setDivision(divisionListe.getSelectedItem().toString());
-            classement.setDate(getDate());
-            classement.setSexe((isHomme.isSelected() ? "M" : "F"));
-            classement.setHtml(createHtml(classement).toString());
         }
 
+        classement.setClassementEquipes(modele.getTeams());
+        classement.setDivision(divisionListe.getSelectedItem().toString());
+        classement.setDate(getDate());
+        classement.setSexe((isHomme.isSelected() ? "M" : "F"));
+        classement.setHtml(createHtml(classement).toString());
         FactoryDAO.getClassementDAO().saveOrUpdate(classement);
     }
 
@@ -572,7 +572,7 @@ public class RankingGenerator
             for(int i = modelIndexes.length - 1; i >= 0; i--)
             {
                 modele.removeTeam(modelIndexes[i]);
-                currentClassement.getClassementEquipes().remove(modelIndexes[i]);
+              //  currentClassement.getClassementEquipes().remove(modelIndexes[i]);
 
             }
         }
