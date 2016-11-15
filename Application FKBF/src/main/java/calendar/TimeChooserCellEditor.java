@@ -34,12 +34,9 @@ public class TimeChooserCellEditor
         super();
 
         panel = new JPanel();
-        // bouton.setBorderPainted(false);
 
         jTimeChooser = new JTimeChooser();
 
-        // JLabel label = new JLabel("Choose a time !");
-        // label.setVisible(true);
 
         dialog = new JDialog();
         dialog.setTitle("Choose a time !");
@@ -84,8 +81,6 @@ public class TimeChooserCellEditor
             bouton.setText(timeformat.format(new Date(time)));
             jTimeChooser.setTime(new Date(time));
             dialog.setVisible(true);
-            // fireEditingStopped();
-
         }
         else
         {
@@ -115,7 +110,7 @@ public class TimeChooserCellEditor
         {
             try
             {
-                time = timeformat.parse("10:30:00").getTime();
+                time = timeformat.parse("11:00:00").getTime();
             }
             catch(ParseException e)
             {

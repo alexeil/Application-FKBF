@@ -34,7 +34,7 @@ public class RankingGenerator
 
     private final static Logger LOGGER = Logger.getLogger(RankingGenerator.class.getName());
     public static String RN = "\r\n";
-    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private static int FIRST = 10;
     private static int SECOND = 6;
     private static int THIRD = 2;
@@ -459,11 +459,11 @@ public class RankingGenerator
         html.append("		<td colspan=\"3\">Classement</td>" + RN);
         html.append("		<td>Points</td>" + RN);
         html.append("		<td>MJ</td>" + RN);
-        html.append("		<td>Premi�re place</td>" + RN);
-        html.append("		<td>Deuxi�me place</td>" + RN);
-        html.append("		<td>Troisi�me place</td>" + RN);
+        html.append("		<td>Premi&egrave;re place</td>" + RN);
+        html.append("		<td>Deuxi&egrave;me place</td>" + RN);
+        html.append("		<td>Troisi&egrave;me place</td>" + RN);
         html.append("		<td>Forfait</td>" + RN);
-        html.append("		<td>Nb p�riodes</td>" + RN);
+        html.append("		<td>Nb p&eacute;riodes</td>" + RN);
         html.append("		<td>Esprit sportif</td>" + RN);
         html.append("	</tr>" + RN);
 

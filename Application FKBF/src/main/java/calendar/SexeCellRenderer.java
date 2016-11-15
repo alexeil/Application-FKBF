@@ -13,8 +13,8 @@ public class SexeCellRenderer
     public SexeCellRenderer()
     {
         super();
-        manImage = new ImageIcon("images/M.jpg");
-        womanImage = new ImageIcon("images/F.jpg");
+        manImage = new ImageIcon("E:\\dev\\src\\Application-FKBF\\Application FKBF\\src\\main\\resources\\images\\M.jpg");
+        womanImage = new ImageIcon("E:\\dev\\src\\Application-FKBF\\Application FKBF\\src\\main\\resources\\images\\F.jpg");
     }
 
     @Override

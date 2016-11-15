@@ -1241,7 +1241,7 @@ public class FeuilleDeMatchGenerator
 
         html.append("<div id=\"Match" + idMatch.getText() + "Plus\" style=\"visibility: visible; display: block;\">"
             + RN);
-        html.append("D�tail du match<br><br>" + RN);
+        html.append("D&eacute;tail du match<br><br>" + RN);
         html.append("<table class=\"tableau_match\" cellspacing=\"0\">" + RN);
         html.append("<tbody><tr>" + RN);
         html.append("<td class=\"premiere_colonne\">Match #" + idMatch.getText() + "</td>" + RN);
@@ -1251,7 +1251,7 @@ public class FeuilleDeMatchGenerator
         html.append("<td colspan=\"7\" class=\"noir\">" + equipeNoir.getText() + "</td>" + RN);
         html.append("</tr>" + RN);
         html.append("<tr>" + RN);
-        html.append("<td class=\"premiere_colonne\">P�riodes gagn�es</td>" + RN);
+        html.append("<td class=\"premiere_colonne\">P&eacute;riodes gagn&eacute;es</td>" + RN);
 
         if(!forfaitBleu.isSelected())
         {
@@ -1298,7 +1298,7 @@ public class FeuilleDeMatchGenerator
         html.append("<td colspan=\"7\" class=\"noir\">" + equipeNoir.getText() + "</td>" + RN);
         html.append("</tr> " + RN);
         html.append("<tr> " + RN);
-        html.append("<td class=\"premiere_colonne\">P�riode</td>" + RN);
+        html.append("<td class=\"premiere_colonne\">P&eacute;riode</td>" + RN);
 
         if(forfaitBleu.isSelected())
         {
@@ -1387,45 +1387,45 @@ public class FeuilleDeMatchGenerator
         }
 
         html.append("</tr>" + RN);
+//        html.append("<tr>" + RN);
+//        html.append("<td class=\"premiere_colonne\">Prolongation 1</td>" + RN);
+//
+//        if(!forfaitBleu.isSelected())
+//        {
+//            html.append("<td>" + prol1B.getText() + "</td>" + RN);
+//            html.append("<td>" + prol2B.getText() + "</td>" + RN);
+//            html.append("<td>" + prol3B.getText() + "</td>" + RN);
+//            html.append("<td>" + prol4B.getText() + "</td>" + RN);
+//            html.append("<td>" + prol5B.getText() + "</td>" + RN);
+//            html.append("<td>" + prol6B.getText() + "</td>" + RN);
+//            html.append("<td>" + prol7B.getText() + "</td>" + RN);
+//        }
+//
+//        if(!forfaitGris.isSelected())
+//        {
+//            html.append("<td>" + prol1G.getText() + "</td>" + RN);
+//            html.append("<td>" + prol2G.getText() + "</td>" + RN);
+//            html.append("<td>" + prol3G.getText() + "</td>" + RN);
+//            html.append("<td>" + prol4G.getText() + "</td>" + RN);
+//            html.append("<td>" + prol5G.getText() + "</td>" + RN);
+//            html.append("<td>" + prol6G.getText() + "</td>" + RN);
+//            html.append("<td>" + prol7G.getText() + "</td>" + RN);
+//        }
+//
+//        if(!forfaitNoir.isSelected())
+//        {
+//            html.append("<td>" + prol1N.getText() + "</td>" + RN);
+//            html.append("<td>" + prol2N.getText() + "</td>" + RN);
+//            html.append("<td>" + prol3N.getText() + "</td>" + RN);
+//            html.append("<td>" + prol4N.getText() + "</td>" + RN);
+//            html.append("<td>" + prol5N.getText() + "</td>" + RN);
+//            html.append("<td>" + prol6N.getText() + "</td>" + RN);
+//            html.append("<td>" + prol7N.getText() + "</td>" + RN);
+//        }
+//
+//        html.append("</tr>" + RN);
         html.append("<tr>" + RN);
-        html.append("<td class=\"premiere_colonne\">Prolongation 1</td>" + RN);
-
-        if(!forfaitBleu.isSelected())
-        {
-            html.append("<td>" + prol1B.getText() + "</td>" + RN);
-            html.append("<td>" + prol2B.getText() + "</td>" + RN);
-            html.append("<td>" + prol3B.getText() + "</td>" + RN);
-            html.append("<td>" + prol4B.getText() + "</td>" + RN);
-            html.append("<td>" + prol5B.getText() + "</td>" + RN);
-            html.append("<td>" + prol6B.getText() + "</td>" + RN);
-            html.append("<td>" + prol7B.getText() + "</td>" + RN);
-        }
-
-        if(!forfaitGris.isSelected())
-        {
-            html.append("<td>" + prol1G.getText() + "</td>" + RN);
-            html.append("<td>" + prol2G.getText() + "</td>" + RN);
-            html.append("<td>" + prol3G.getText() + "</td>" + RN);
-            html.append("<td>" + prol4G.getText() + "</td>" + RN);
-            html.append("<td>" + prol5G.getText() + "</td>" + RN);
-            html.append("<td>" + prol6G.getText() + "</td>" + RN);
-            html.append("<td>" + prol7G.getText() + "</td>" + RN);
-        }
-
-        if(!forfaitNoir.isSelected())
-        {
-            html.append("<td>" + prol1N.getText() + "</td>" + RN);
-            html.append("<td>" + prol2N.getText() + "</td>" + RN);
-            html.append("<td>" + prol3N.getText() + "</td>" + RN);
-            html.append("<td>" + prol4N.getText() + "</td>" + RN);
-            html.append("<td>" + prol5N.getText() + "</td>" + RN);
-            html.append("<td>" + prol6N.getText() + "</td>" + RN);
-            html.append("<td>" + prol7N.getText() + "</td>" + RN);
-        }
-
-        html.append("</tr>" + RN);
-        html.append("<tr>" + RN);
-        html.append("<td class=\"premiere_colonne\">P�riodes gagn�es</td>" + RN);
+        html.append("<td class=\"premiere_colonne\">P&eacute;riodes gagn&eacute;es</td>" + RN);
 
         if(!forfaitBleu.isSelected())
         {
@@ -1442,7 +1442,7 @@ public class FeuilleDeMatchGenerator
 
         html.append("</tr>" + RN);
         html.append("<tr>" + RN);
-        html.append("<td class=\"premiere_colonne\">Prolongation 2�me position</td>" + RN);
+        html.append("<td class=\"premiere_colonne\">Prolongation 2&egrave;me position</td>" + RN);
 
         if(!forfaitBleu.isSelected())
         {
@@ -1888,7 +1888,7 @@ public class FeuilleDeMatchGenerator
 
         html.append("<div id=\"Match" + match.getIdMatch() + "Moins\" style=\"display: none;\">" + RN);
 
-        html.append("R�duire le d�tail du match" + RN);
+        html.append("Réduire le détail du match" + RN);
         html.append("<br><br>" + RN);
 
         html.append("<table class=\"tableau_match\" cellspacing=\"0\">" + RN);

@@ -49,36 +49,35 @@ public class CalendarGenerator extends JFrame {
 
 	private String[] namesOfDays = { "dimanche", "lundi", "mardi", "mercredi",
 			"jeudi", "vendredi", "samedi" };
-	private String[] namesOfMonths = { "janvier", "f�vrier", "mars", "avril",
-			"mai", "juin", "juillet", "ao�t", "septembre", "octobre",
-			"novembre", "d�cembre" };
+	private String[] namesOfMonths = { "janvier", "février", "mars", "avril",
+			"mai", "juin", "juillet", "août", "septembre", "octobre",
+			"novembre", "décembre" };
 
 	public static Map<String, String> nieme = new HashMap<String, String>();
 	static {
-		nieme.put("1er", "premier");
-		nieme.put("2�me", "deuxi�me");
-		nieme.put("3�me", "troisi�me");
-		nieme.put("4�me", "quatri�me");
-		nieme.put("5�me", "cinqui�me");
-		nieme.put("6�me", "sixi�me");
-		nieme.put("7�me", "septi�me");
-		nieme.put("8�me", "huiti�me");
-		nieme.put("9�me", "neuvi�me");
-		nieme.put("10�me", "dixi�me");
-		nieme.put("11�me", "onzi�me");
-		nieme.put("12�me", "douzi�me");
-		nieme.put("13�me", "treizi�me");
-		nieme.put("14�me", "quatorzi�me");
-		nieme.put("15�me", "quinzi�me");
-		nieme.put("16�me", "seizi�me");
-		nieme.put("17�me", "dix-septi�me");
-		nieme.put("18�me", "dix-huiti�me");
-		nieme.put("19�me", "dix-neuvi�me");
-		nieme.put("20�me", "vingti�me");
-		nieme.put("21�me", "vingt-et-uni�me");
-		nieme.put("22�me", "vingt-deuxi�me");
-		nieme.put("23�me", "vingt-troisi�me");
-
+		nieme.put("1ère", "première");
+		nieme.put("2ème", "deuxième");
+		nieme.put("3ème", "troisième");
+		nieme.put("4ème", "quatrième");
+		nieme.put("5ème", "cinquième");
+		nieme.put("6ème", "sixième");
+		nieme.put("7ème", "septième");
+		nieme.put("8ème", "huitième");
+		nieme.put("9ème", "neuvième");
+		nieme.put("10ème", "dixième");
+		nieme.put("11ème", "onzième");
+		nieme.put("12ème", "douzième");
+		nieme.put("13ème", "treizième");
+		nieme.put("14ème", "quatorzième");
+		nieme.put("15ème", "quinzième");
+		nieme.put("16ème", "seizième");
+		nieme.put("17ème", "dix-septième");
+		nieme.put("18ème", "dix-huitième");
+		nieme.put("19ème", "dix-neuvième");
+		nieme.put("20ème", "vingtième");
+		nieme.put("21ème", "vingt-et-unième");
+		nieme.put("22ème", "vingt-deuxième");
+		nieme.put("23ème", "vingt-troisième");
 	}
 
 	public static String RN = "\r\n";
@@ -106,7 +105,7 @@ public class CalendarGenerator extends JFrame {
 	private JTextArea descriptionAnnonce;
 	private JButton btnNewButton;
 
-	private static String INIT_TEXT_AREA = "La <nieme> journ�e du championnat de France de Kin-Ball se d�roulera le <jour> <numJour> <mois> <annee> � <ville>. \n\r  \n\r Les matchs auront lieu � <adresse>. Le premier match commencera � <heure>. Les horaires indiqu�s sont les horaires de d�but de match au plus t�t. \n\r  \n\r";
+	private static String INIT_TEXT_AREA = "La <nieme> journée du championnat de France de Kin-Ball se déroulera le <jour> <numJour> <mois> <annee> à <ville>. \n\r  \n\r Les matchs auront lieu à <adresse>. Le premier match commencera à <heure>. Les horaires indiqués sont les horaires de début de match au plus tôt. \n\r  \n\r";
 
 	// private SimpleDate Format dateformat = new
 	// SimpleDateFormat("dd/MM/yyyy");
@@ -399,6 +398,12 @@ public class CalendarGenerator extends JFrame {
 	}
 
 	public static void main(String[] args) {
+		/*File file= 	new File("C:\\resultats\\toto");
+		try {
+			file.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
 		new CalendarGenerator().setVisible(true);
 	}
 
@@ -415,7 +420,7 @@ public class CalendarGenerator extends JFrame {
 						.get(modele.getRowCount() - 1).getFin());
 				eventKB.setFin(modele.getEventsKB()
 						.get(modele.getRowCount() - 1).getFin()
-						+ (75 * 60 * 1000));
+						+ (60 * 60 * 1000));
 			}
 
 			modele.addEvent(eventKB);
@@ -498,13 +503,13 @@ public class CalendarGenerator extends JFrame {
 		StringBuilder html = new StringBuilder();
 
 		html.append("<p class=\"date\">" + getDay() + " " + getNumDay() + " "
-				+ getMonth() + " " + getYear() + " � " + ville.getText()
+				+ getMonth() + " " + getYear() + " à" + ville.getText()
 				+ "</p>");
 		html.append(RN);
 
 		html.append("<div class=\"championnat_masculin\">Championnat Masculin</div> "
 				+ RN);
-		html.append("<div class=\"championnat_feminin\">Championnat F�minin</div> "
+		html.append("<div class=\"championnat_feminin\">Championnat Féminin</div> "
 				+ RN);
 		html.append("<div style=\"clear:both;\"></div>" + RN);
 
@@ -557,14 +562,10 @@ public class CalendarGenerator extends JFrame {
 	}
 
 	public void generateAnnonceHTML() {
-
-		// GregorianCalendar calendar = (GregorianCalendar)
-		// dateJournee.getModel().getValue();
-
 		StringBuilder html = new StringBuilder();
 
 		html.append("<p>" + RN);
-		html.append("	<img src=\"http://www.kin-ball.fr/images/championnat1314/"
+		html.append("	<img src=\"http://www.kin-ball.fr/images/championnat1516/"
 				+ imageAnnonce.getText()
 				+ " \" align=\"left\" style=\"margin-right:20px;margin-bottom:20px;width:200px;\">"
 				+ RN);
@@ -584,7 +585,7 @@ public class CalendarGenerator extends JFrame {
 			if (eventKB.isHomme()) {
 				html.append("			<td>Masculin</td>" + RN);
 			} else {
-				html.append("			<td>F�minin</td>" + RN);
+				html.append("			<td>Féminin</td>" + RN);
 			}
 			html.append("		<td> " + eventKB.getEquipeBleu() + " </td> " + RN);
 			html.append("		<td> " + eventKB.getEquipeGris() + " </td> " + RN);
@@ -609,7 +610,7 @@ public class CalendarGenerator extends JFrame {
 
 		try {
 
-			file = new File("c:/resultats/" + fileName + ".html");
+			file = new File("C:\\resultats\\" + fileName + ".html");
 			fop = new FileOutputStream(file);
 
 			// if file doesnt exists, then create it

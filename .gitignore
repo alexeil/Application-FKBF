@@ -3,3 +3,46 @@
 /Application FKBF/.classpath
 /Application FKBF/.project
 /Application FKBF/Application.FKBF.iml
+/.idea/.name
+/.idea/Application-FKBF.iml
+/.idea/compiler.xml
+/.idea/copyright/profiles_settings.xml
+/.idea/encodings.xml
+/.idea/libraries/Maven__antlr_antlr_2_7_6.xml
+/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_1_3.xml
+/.idea/libraries/Maven__com_google_api_client_google_api_client_1_17_0_rc.xml
+/.idea/libraries/Maven__com_google_apis_google_api_services_calendar_v3_rev71_1_17_0_rc.xml
+/.idea/libraries/Maven__com_google_code_findbugs_jsr305_1_3_7.xml
+/.idea/libraries/Maven__com_google_gdata_core_1_47_1.xml
+/.idea/libraries/Maven__com_google_guava_guava_13_0_1.xml
+/.idea/libraries/Maven__com_google_http_client_google_http_client_1_17_0_rc.xml
+/.idea/libraries/Maven__com_google_http_client_google_http_client_jackson2_1_17_0_rc.xml
+/.idea/libraries/Maven__com_google_oauth_client_google_oauth_client_1_17_0_rc.xml
+/.idea/libraries/Maven__com_google_oauth_client_google_oauth_client_java6_1_11_0_beta.xml
+/.idea/libraries/Maven__com_google_oauth_client_google_oauth_client_jetty_1_11_0_beta.xml
+/.idea/libraries/Maven__commons_codec_commons_codec_1_3.xml
+/.idea/libraries/Maven__commons_collections_commons_collections_3_1.xml
+/.idea/libraries/Maven__commons_logging_commons_logging_1_1_1.xml
+/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml
+/.idea/libraries/Maven__javassist_javassist_3_12_1_GA.xml
+/.idea/libraries/Maven__javax_activation_activation_1_1.xml
+/.idea/libraries/Maven__javax_mail_mail_1_4.xml
+/.idea/libraries/Maven__javax_transaction_jta_1_1.xml
+/.idea/libraries/Maven__log4j_log4j_1_2_17.xml
+/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_31.xml
+/.idea/libraries/Maven__net_sourceforge_jdatepicker_jdatepicker_1_3_2.xml
+/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_0_1.xml
+/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_0_1.xml
+/.idea/libraries/Maven__org_hibernate_hibernate_commons_annotations_3_2_0_Final.xml
+/.idea/libraries/Maven__org_hibernate_hibernate_core_3_6_3_Final.xml
+/.idea/libraries/Maven__org_hibernate_javax_persistence_hibernate_jpa_2_0_api_1_0_0_Final.xml
+/.idea/libraries/Maven__org_mortbay_jetty_jetty_6_1_26.xml
+/.idea/libraries/Maven__org_mortbay_jetty_jetty_util_6_1_26.xml
+/.idea/libraries/Maven__org_mortbay_jetty_servlet_api_2_5_20081211.xml
+/.idea/libraries/Maven__org_slf4j_slf4j_api_1_6_1.xml
+/.idea/libraries/external_dependencies.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/scopes/scope_settings.xml
+/.idea/vcs.xml
+/.idea/workspace.xml

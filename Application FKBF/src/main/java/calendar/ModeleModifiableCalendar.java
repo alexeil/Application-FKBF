@@ -9,11 +9,13 @@ import java.util.List;
 public class ModeleModifiableCalendar
     extends AbstractTableModel
 {
-    SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
+	private static final long serialVersionUID = 249231451422460673L;
+
+	SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
 
     private EventDayKB eventDayKB = new EventDayKB();
 
-    private final String[] entetes = { "H d�but", "H fin", "Sexe", "ID", "Bleu", "Gris", "Noir" };
+    private final String[] entetes = { "H début", "H fin", "Sexe", "ID", "Bleu", "Gris", "Noir" };
 
     public ModeleModifiableCalendar()
     {

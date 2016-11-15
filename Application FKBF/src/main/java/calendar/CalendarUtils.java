@@ -17,7 +17,10 @@ import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 import com.google.gdata.util.ServiceException;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -34,8 +37,8 @@ public class CalendarUtils
     private static final String APPLICATION_NAME = "";
 
     /** Directory to store user credentials. */
-    private static final java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.home"),
-        ".store/calendar_sample");
+  //  private static final java.io.File DATA_STORE_DIR = new java.io.File(System.getProperty("user.home"),
+    //    ".store/calendar_sample");
 
     /**
      *  The best practice is to make it a single globally shared
@@ -47,7 +50,7 @@ public class CalendarUtils
     private static HttpTransport httpTransport;
 
     /** Global instance of the JSON factory. */
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+  //  private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
     private static com.google.api.services.calendar.Calendar client;
 
@@ -58,11 +61,75 @@ public class CalendarUtils
     // Calendrier du championnat
     private static String CALENDAR = "7m7f052020pvc2ef8pfg2dsia0@group.calendar.google.com";
 
+
+    /** Global instance of the JSON factory. */
+    private static final JsonFactory JSON_FACTORY =
+            JacksonFactory.getDefaultInstance();
+
+    /** Global instance of the HTTP transport. */
+    private static HttpTransport HTTP_TRANSPORT;
+
+    private static final List<String> SCOPES =
+            Arrays.asList(CalendarScopes.CALENDAR_READONLY);
+
+    private static final java.io.File DATA_STORE_DIR = new java.io.File(
+            System.getProperty("user.home"), ".credentials/calendar-java-quickstart");
+    private static FileDataStoreFactory DATA_STORE_FACTORY;
+
+
+    static {
+        try {
+            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+            DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
+        } catch (Throwable t) {
+            t.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public static Credential authorize() throws Exception {
+        // Load client secrets.
+        //InputStream in =
+          //      CalendarUtils.class.getResourceAsStream("/client_secret.json");
+
+        InputStream in = new FileInputStream("E:\\dev\\src\\Application-FKBF\\Application FKBF\\lib\\client_secrets.json");
+
+        GoogleClientSecrets clientSecrets =
+                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+
+        // Build flow and trigger user authorization request.
+        GoogleAuthorizationCodeFlow flow =
+                new GoogleAuthorizationCodeFlow.Builder(
+                        HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+                        .setDataStoreFactory(DATA_STORE_FACTORY)
+                        .setAccessType("offline")
+                        .build();
+        Credential credential = new AuthorizationCodeInstalledApp(
+                flow, new LocalServerReceiver()).authorize("user");
+        System.out.println(
+                "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
+        return credential;
+    }
+
+    /**
+     * Build and return an authorized Calendar client service.
+     * @return an authorized Calendar client service
+     * @throws IOException
+     */
+    public static com.google.api.services.calendar.Calendar
+    getCalendarService() throws Exception {
+        Credential credential = authorize();
+        return new com.google.api.services.calendar.Calendar.Builder(
+                HTTP_TRANSPORT, JSON_FACTORY, credential)
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+    }
+
     /** Authorizes the installed application to access user's protected data. */
-    private static Credential authorize()
+   /* private static Credential authorize()
         throws Exception
     {
-        InputStream is = new FileInputStream("client_secrets.json");
+        InputStream is = new FileInputStream("E:\\dev\\src\\Application-FKBF\\Application FKBF\\lib\\client_secrets.json");
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
         // load client secrets
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, br);
@@ -80,7 +147,7 @@ public class CalendarUtils
         // authorize
         return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
     }
-
+*/
     public static void initCalendarUtils()
     {
         try
@@ -127,11 +194,11 @@ public class CalendarUtils
 
         if(resultFeed.getItems().isEmpty())
         {
-            System.out.println("Il n'y a pas d'�v�nement pour cette journ�e");
+            System.out.println("Il n'y a pas d'évènement pour cette journée");
         }
         else
         {
-            System.out.println("Il y a " + (resultFeed.getItems().size() - 1) + " match pour cette journ�e");
+            System.out.println("Il y a " + (resultFeed.getItems().size() - 1) + " match pour cette journée");
             for(int i = resultFeed.getItems().size() - 1; i != -1; i--)
             {
 
@@ -140,18 +207,15 @@ public class CalendarUtils
                 Event entry = resultFeed.getItems().get(i);
                 event.setCalendarEventEntry(entry);
 
+                String[] values = null;
                 String commentaire = entry.getDescription();
-                String[] values = commentaire.split("\\|\\|");
-
+                
+                if(null != commentaire){
+                	values  = commentaire.split("\\|\\|");
+                }
                 // MATCH
-                if("M".equals(values[0]))
+                if(null != values && "M".equals(values[0]))
                 {
-
-                 //   event.setDebut(TIME_FORMAT.parse(
-                //        TIME_FORMAT.format(new Date(entry.getStart().getDateTime().getValue()))).getTime());
-                //    event.setFin(TIME_FORMAT.parse(
-                 //       TIME_FORMAT.format(new Date(entry.getEnd().getDateTime().getValue()))).getTime());
-
                     event.setDebut(TIME_FORMAT.parse(
                         TIME_FORMAT.format(new Date(entry.getStart().getDateTime().getValue()))).getTime());
                     event.setFin(TIME_FORMAT.parse(
@@ -168,7 +232,7 @@ public class CalendarUtils
 
                     // JOURNEE
                 }
-                else if("J".equals(values[0]))
+                else if(null != values && "J".equals(values[0]))
                 {
                     eventDayKB.setDate(entry.getStart().getDate().getValue());
 
@@ -179,13 +243,13 @@ public class CalendarUtils
                 }
                 else
                 {
-                    System.out.println("ERROR FORMATING");
+                    System.out.println("ERROR FORMATING du commentaire");
                 }
             }
             System.out.println(eventDayKB.toString());
         }
 
-        // order by date de d�but
+        // order by date de début
         Collections.sort(eventDayKB.getEvents(), new Comparator<EventKB>()
         {
             public int compare(EventKB o1, EventKB o2)
@@ -222,11 +286,16 @@ public class CalendarUtils
 
         String startDateStr = DATE_FORMAT.format(startDate);
         String endDateStr = DATE_FORMAT.format(endDate);
+        
 
         // Out of the 6 methods for creating a DateTime object with no time
         // element, only the String version works
-        com.google.api.client.util.DateTime startDateTime = new com.google.api.client.util.DateTime(startDate);
-        com.google.api.client.util.DateTime endDateTime = new com.google.api.client.util.DateTime(endDate);
+//        com.google.api.client.util.DateTime startDateTime = new com.google.api.client.util.DateTime(startDate);
+//        com.google.api.client.util.DateTime endDateTime = new com.google.api.client.util.DateTime(endDate);
+        
+        
+        com.google.api.client.util.DateTime startDateTime = new com.google.api.client.util.DateTime(startDateStr);
+        com.google.api.client.util.DateTime endDateTime = new com.google.api.client.util.DateTime(endDateStr);
         // Must use the setDate() method for an all-day event (setDateDate() is
         // used for timed events)
         EventDateTime startEventDateTime = new EventDateTime().setDate(startDateTime);
@@ -300,18 +369,6 @@ public class CalendarUtils
         return sbCommentaire.toString();
     }
 
-    // private static When getPeriodeFromEvent(EventKB eventKB) {
-    // DateTime startTime = new DateTime(new Date(eventKB.getDebut()),
-    // TimeZone.getDefault());
-    // DateTime endTime = new DateTime(new Date(eventKB.getFin()),
-    // TimeZone.getDefault());
-    //
-    // When eventTimes = new When();
-    // eventTimes.setStartTime(startTime);
-    // eventTimes.setEndTime(endTime);
-    //
-    // return eventTimes;
-    // }
 
     public static Event createEvent(EventKB eventKB, String ville, long date)
         throws IOException, ServiceException
@@ -339,5 +396,4 @@ public class CalendarUtils
             .update(calendar.getId(), eventKB.getCalendarEventEntry().getId(), eventKB.getCalendarEventEntry())
             .execute();
     }
-
 }
